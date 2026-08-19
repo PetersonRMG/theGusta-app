@@ -1,98 +1,89 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useState } from "react";
+import { View, Text, ImageBackground, Image, TextInput, Pressable } from "react-native";
+import globalStyle from '../styles/globalstyles';
+import loginStyle from "@/styles/loginStyle";
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
 
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
+export default function LoginScreen() {
+  const [verSenha, setVerSenha] = useState(false);
+
   return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
+    <View style={globalStyle.container}>
+      <ImageBackground
+        source={require('@/assets/images/img/00_fundo.png')}
+        style={globalStyle.background}
+        resizeMode="stretch"
+      >
+        <View style={loginStyle.conteudo}>
+          <Image
+            style={loginStyle.logo}
+            source={require('@/assets/images/img/logo.png')}
+          />
+
+          <Text style={loginStyle.titulo}>Bem-vindo(a)!</Text>
+          <Text style={loginStyle.subtitulo}>Faça seu login para continuar</Text>
+
+          {/* FORMULARIO */}
+          <View style={loginStyle.form}>
+
+            <View style={loginStyle.input}>
+              <Image
+                source={require('@/assets/images/img/email.png')}
+                style={loginStyle.icone}
+              />
+              <TextInput
+                style={loginStyle.txtInput}
+                
+             
+                placeholder="E-mail"
+                placeholderTextColor={'#888888'}
+                keyboardType="email-address"
+                autoCapitalize="none"                 
+               
+              />
+            </View>
+
+            <View style={loginStyle.input}>
+              <Image
+                source={require('@/assets/images/img/senha.png')}
+                style={loginStyle.icone}
+              />
+              <TextInput
+                placeholder="Senha"
+                secureTextEntry={!verSenha}
+                placeholderTextColor={'#888888'}
+                keyboardType="visible-password"
+                style={loginStyle.txtInput}
+              />
+              <Pressable
+                style={loginStyle.btnMostrarSenha}
+                onPress={() => setVerSenha((current)=> !current)}
+              >
+                <Image
+                  source={verSenha ? require('@/assets/images/img/esconder.png') : require('@/assets/images/img/mostrar.png')}
+                  style={loginStyle.mostrarSenha}
+                />
+
+              </Pressable>
+            </View>
+
+            <Pressable style={loginStyle.btnEsqueciSenha}>
+              <Text style={loginStyle.txtEsqueciSenha}> Esqueci minha senha</Text>
+            </Pressable>
+
+            <Pressable>
+              <Text>Entrar</Text>
+            </Pressable>
+
+            <Pressable>
+              <Text>Criar Conta</Text>
+            </Pressable>
+
+          </View>
+
+        </View>
+
+      </ImageBackground>
+    </View>
   );
 }
-
-export default function HomeScreen() {
-  return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
-
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
-
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
-
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
-  },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
-  },
-  title: {
-    textAlign: 'center',
-  },
-  code: {
-    textTransform: 'uppercase',
-  },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
-  },
-});
