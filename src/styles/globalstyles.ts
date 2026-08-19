@@ -7,22 +7,23 @@ const globalStyle = StyleSheet.create({
         backgroundColor: "#ffff"
     },
     background: {
-        width: '100%',
+         width:'100%',
         maxWidth: 440,
         height: '100%',
+        backgroundSize:'convain'
     },
-    logo: {
+    logoMaior: {
+        width: 160,
+        height:150,
+    },
+    areaConteudo: {
+        flex: 1,
         
     },
-    titulo: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        marginBottom: 10,
+    scrollConteudo: {
+        flexGrow:1,
     },
-    subtitulo: {
-        fontSize: 20,
-        color: '#0000ff'
-    }
+
 });
 
 export default globalStyle;

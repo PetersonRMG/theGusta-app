@@ -1,19 +1,20 @@
 import { StyleSheet } from "react-native";
-import { red } from "react-native-reanimated/lib/typescript/Colors";
+ 
 
 const loginStyle = StyleSheet.create({
 	conteudo: {
 		flex: 1,
 		alignItems: 'center',
-		justifyContent:'center'
+		justifyContent: 'center',
+		marginVertical:30,
 		
 	},
 	logo: {
-		width: 250,
-		height: 230,
+		width: 195,
+		height: 180,
 	},
 	titulo: {
-		marginTop: 50,
+		marginTop: 30,
 		fontSize: 40,
 		fontWeight: 'bold',
 		color: '#00000',
@@ -26,7 +27,7 @@ const loginStyle = StyleSheet.create({
 	},
 	form: {
 		width: '100%',
-		marginTop:50,
+		marginTop:20,
 		alignItems: 'center',
 		paddingHorizontal:'5%',
 	},
@@ -49,7 +50,8 @@ const loginStyle = StyleSheet.create({
 		marginRight:10,
 	},
 	txtInput: {
-		width:'100%',
+		width: '100%',
+	
 	},
 	btnMostrarSenha: {
 		justifyContent:'center',
@@ -69,6 +71,65 @@ const loginStyle = StyleSheet.create({
 		color: 'rgba(255, 152, 0, 1)',
 		textDecorationLine: 'underline',
 		fontSize: 12,
+	},
+	btnEntrar: {
+		width: '80%',	
+		height: 50,
+		backgroundColor: '#ff9800',
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderRadius: 10,
+		marginTop:20,
+	},
+	btnEntrarPressed: {
+		backgroundColor: '#c77802ff',
+		alignItems: 'center',
+		transform:' scale(1.1)',
+		
+	},
+	txtEntrar: {
+		fontSize: 25,
+		color: '#000000',
+		fontWeight:'bold',
+	},
+	separador: {
+		width: '80%',		 
+		flexDirection: 'row',
+		alignItems: 'center',		
+		
+	},
+	linha: {
+		flex:1,
+		height: 2,
+		backgroundColor:'#ff9800'
+	},
+	txtSeparador: {
+		margin: 10,		
+		fontSize: 15,
+		color:'#888888'
+	},
+	btnCriarConta: {
+		width: '80%',
+		height: 50,
+		borderColor: '#ff9800',
+		backgroundColor: "#FFE8C5",
+		borderWidth:2,
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderRadius: 10,
+		transitionDuration: .5,
+		 
+	},
+	btnCriarContaPress: {
+		alignItems: 'center',
+		transform: 'scale(1.1)',
+		backgroundColor: "#e7d2b2ff",
+		transitionDuration:.5,
+	},
+	txtCriar: {
+		fontSize: 25,
+		color: '#000000',
+		fontWeight: 'bold',
 	},
 });
 
