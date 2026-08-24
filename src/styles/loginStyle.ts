@@ -1,4 +1,6 @@
 import { StyleSheet } from "react-native";
+
+import { fontes } from "./variaveis";
  
 
 const loginStyle = StyleSheet.create({
@@ -18,12 +20,15 @@ const loginStyle = StyleSheet.create({
 		fontSize: 40,
 		fontWeight: 'bold',
 		color: '#00000',
-		textAlign:'center',
+		textAlign: 'center',
+		fontFamily: fontes.negrito,
+		
 	},
 	subtitulo: {
 		marginTop: 10,
 		fontSize: 20,
-		color:"#8888"  
+		color: "#8888",  
+		fontFamily:fontes.comum
 	},
 	form: {
 		width: '100%',
@@ -71,6 +76,7 @@ const loginStyle = StyleSheet.create({
 		color: 'rgba(255, 152, 0, 1)',
 		textDecorationLine: 'underline',
 		fontSize: 12,
+		fontFamily:fontes.negrito
 	},
 	btnEntrar: {
 		width: '80%',	
@@ -84,13 +90,13 @@ const loginStyle = StyleSheet.create({
 	btnEntrarPressed: {
 		backgroundColor: '#c77802ff',
 		alignItems: 'center',
-		transform:' scale(1.1)',
+		transform:' scale(0.9)',
 		
 	},
 	txtEntrar: {
 		fontSize: 25,
 		color: '#000000',
-		fontWeight:'bold',
+		fontFamily: fontes.negrito
 	},
 	separador: {
 		width: '80%',		 
@@ -106,7 +112,8 @@ const loginStyle = StyleSheet.create({
 	txtSeparador: {
 		margin: 10,		
 		fontSize: 15,
-		color:'#888888'
+		color: '#888888',
+		fontFamily: fontes.fina
 	},
 	btnCriarConta: {
 		width: '80%',
@@ -122,14 +129,14 @@ const loginStyle = StyleSheet.create({
 	},
 	btnCriarContaPress: {
 		alignItems: 'center',
-		transform: 'scale(1.1)',
+		transform: 'scale(0.9)',
 		backgroundColor: "#e7d2b2ff",
 		transitionDuration:.5,
 	},
 	txtCriar: {
 		fontSize: 25,
 		color: '#000000',
-		fontWeight: 'bold',
+		fontFamily:fontes.negrito
 	},
 });
 

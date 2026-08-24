@@ -1,4 +1,6 @@
 import { StyleSheet } from "react-native";
+import { fontes, cores } from "./variaveis";
+
 
 
 const cadClientStyle = StyleSheet.create({
@@ -107,18 +109,19 @@ const cadClientStyle = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 10,
         marginTop: 20,
-        marginBottom:10,
+        marginBottom: 10,
+        
     },
     btnEntrarPressed: {
         backgroundColor: '#c77802ff',
         alignItems: 'center',
-        transform:' scale(1.1)',
+        transform:' scale(0.9)',
         
     },
     txtEntrar: {
         fontSize: 25,
         color: '#000000',
-        fontWeight:'bold',
+         fontFamily:fontes.negrito,
     },
     separador: {
         width: '80%',		 
@@ -150,7 +153,7 @@ const cadClientStyle = StyleSheet.create({
     },
     btnCriarContaPress: {
         alignItems: 'center',
-        transform: 'scale(1.1)',
+        transform: 'scale(0.9)',
         backgroundColor: "#e7d2b2ff",
         transitionDuration:.5,
     },
@@ -158,6 +161,7 @@ const cadClientStyle = StyleSheet.create({
         fontSize: 25,
         color: '#000000',
         fontWeight: 'bold',
+        fontFamily:fontes.negrito
     },
 });
 

@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";  
 
-import { cores } from "./variaveis";
+import { cores,fontes } from "./variaveis";
 
 const esqueciSenhaStyle = StyleSheet.create({
     conteudo: {
@@ -13,7 +13,7 @@ const esqueciSenhaStyle = StyleSheet.create({
     titulo: {
         marginTop: 30,
         fontSize: 30,
-        fontWeight: "bold",
+        fontFamily: fontes.negrito,
         color: "#000000",
         textAlign: "center",
     },
@@ -24,6 +24,7 @@ const esqueciSenhaStyle = StyleSheet.create({
         color: "#888888",
         textAlign: "center",
         paddingHorizontal: "10%",
+        fontFamily: fontes.comum,
     },
 
     form: {
@@ -69,11 +70,12 @@ const esqueciSenhaStyle = StyleSheet.create({
     txtEnviar: {
         color: "#000000",
         fontSize: 22,
-        fontWeight: "bold",
+        fontFamily: fontes.negrito
     },
 
     btnEnviarPressed: {
-        opacity: 0.8,
+        transform: 'scale(0.9)',
+        backgroundColor: '#c77802ff',
     },
 
     btnVoltar: {
@@ -91,11 +93,13 @@ const esqueciSenhaStyle = StyleSheet.create({
     txtVoltar: {
         color: "#000000",
         fontSize: 22,
-        fontWeight: "bold",
+        fontFamily: fontes.negrito
     },
 
     btnVoltarPressed: {
-        backgroundColor: "#ff9800",
+        transform: 'scale(0.9)',
+        backgroundColor: "#e7d2b2ff",
+        
     },
 });
 
