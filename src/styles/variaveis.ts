@@ -8,7 +8,8 @@ export const cores = {
     preto: '#000000',
     cinza: '#888888',
     preto80: '#00000080',
-    branco: '#fff'
+    branco: '#fff',
+    branco90:'#ffffff90'
 };
 
 export const fontes = {
@@ -17,5 +18,6 @@ export const fontes = {
     negrito: 'Oswald_700Bold',
     medio: 'Oswald_500Medium',
     semiNegrito: 'Oswald_600SemiBold',
+    peq:15,
 };
 
