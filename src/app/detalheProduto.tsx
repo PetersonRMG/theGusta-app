@@ -5,7 +5,7 @@ import { router } from "expo-router";
 import { View, Text, ImageBackground, Image, TextInput, Pressable, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import globalStyle from '@/styles/globalstyles';
-import homeStyles from "@/styles/homeStyles";
+import detalhesProdutoStyles from "@/styles/detalheProdutoStyles";
 import FooterScreen from "@/app/footer";
 
 
@@ -27,11 +27,22 @@ export default function Basecreen() {
                     </Pressable>
 
                     <ScrollView style={globalStyle.scrollConteudo}>
+                        <View style={detalhesProdutoStyles.conteudo}>
 
 
+                            <View style={detalhesProdutoStyles.header}>
 
+                                <View style={detalhesProdutoStyles.conteudoHeader}>
+
+                                    <Text style={detalhesProdutoStyles.titulo}>Bolo de Banana Fit</Text>
+                                    <Pressable style={detalhesProdutoStyles.btnFavorito}>
+                                        <Text style={detalhesProdutoStyles.iconeFavorito}>★</Text>
+                                    </Pressable>
+                                </View>
+                            </View>
+                        </View>
                     </ScrollView>
-                    <FooterScreen/>
+                    <FooterScreen />
                 </SafeAreaView>
 
             </ImageBackground>

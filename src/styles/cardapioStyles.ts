@@ -1,192 +1,182 @@
-import { StyleSheet } from "react-native";
-import { cores, fontes } from "./variaveis";
+import { StyleSheet } from "react-native"
+import { cores } from "./variaveis";
+import { fontes } from "./variaveis";
 
-
-const homeStyles = StyleSheet.create({
-    header: {
-        width: '80%',  
-        margin: 'auto',
-        marginTop:50,
-    },
+const cardapioStyle = StyleSheet.create({
     conteudo: {
+        marginTop: 50,
+        marginBottom: 30,
+
+    },
+    header: {
+        width: '80%',
+        margin: 'auto',
+    },
+conteudoHeader: {
         alignItems: 'flex-end',
         justifyContent: 'space-between',
         flexDirection: 'row',
         width: '100%',
 
     },
-    titulo: {        
+    titulo: {
         fontSize: 30,
         fontWeight: 'bold',
-        color: cores.preto,        
+        color: cores.preto,
         fontFamily: fontes.negrito,
 
     },
     bordaPerfil: {
-        padding: 15,
-        borderColor: cores.laranjo,
-        borderRadius: "50%",
-        borderWidth: 2,
-        backgroundColor:cores.laranjoClaro
+
     },
     perfil: {
-        width: 50,
-        height: 50,
+        width: 70,
+        height: 70,
     },
     subtitulo: {
         marginTop: 10,
         fontSize: 18,
         color: cores.cinza,
-         
-         
+
+
     },
     main: {
-        width: '80%',        
+        width: '80%',
         alignItems: 'center',
         margin: 'auto',
         marginTop: 30,
-        
     },
     buscarProduto: {
         width: '100%',
         height: 50,
-        backgroundColor:cores.laranjoClaro,
+        backgroundColor: cores.laranjoClaro,
         borderColor: cores.laranjo,
         borderWidth: 2,
         borderRadius: 10,
-        padding: 10,        
-        flexDirection:'row',       
+        padding: 10,
+        flexDirection: 'row',
     },
     txtProduto: {
         marginVertical: 'auto',
         color: cores.preto,
         fontSize: 15,
-        width:'100%',        
+        width: '100%',
     },
     btnBuscar: {
         width: 30,
-        height: 30,        
+        height: 30,
     },
-    icone:{
+    icone: {
         width: '100%',
-        height: '100%',        
-    },
-    banner: {
-        width: '100%',
-        height:160,
-        borderRadius: 20,
-        marginTop:30,        
-    },
-    categoria: {
-        width: '100%',
-        marginTop:30,
-    },
-    tituloSecao: {
-        fontSize: 30,        
-        color: cores.preto,
-        fontFamily: fontes.negrito,
-        marginBottom:10,
+        height: '100%',
     },
     conteudoCategoria: {
         width: '100%',
         flexDirection: 'row',
-        justifyContent:'space-between',
-        
+        justifyContent: 'space-between',
+        marginTop:25,
+
     },
     itemCategoria: {
         width: 55,
         height: 55,
         borderRadius: 10,
         borderColor: cores.laranjo,
-        backgroundColor:cores.laranjoClaro,
+        backgroundColor: cores.laranjoClaro,
         borderWidth: 2,
         paddingVertical: 3,
         paddingHorizontal: 10,
-        alignItems:'center',
+        alignItems: 'center',
     },
     imgCategoria: {
         width: 30,
-        height:30,
+        height: 30,
     },
     txtCategoria: {
         fontSize: 11,
         fontFamily: fontes.comum,
-        color:cores.cinza,
+        color: cores.cinza,
     },
-    destaque: {
-        width: '100%',
-        marginTop: 30,
+    categoria: {
+        marginTop: 20,
+        width:'100%',
     },
-
-    conteudoDestaque:{
+    tituloCategoria: {
+        fontSize: 20,
+        fontFamily: fontes.negrito,
+    },
+    produtos: {
         width: '100%',
-        gap: 10,
-        flexGrow:1,
+        flexWrap: 'wrap',
+        flexDirection: 'row',
+        marginVertical: 10,
+        gap:'4%',
         
     },
-    itemDestaque: {
-        width: 110,
-        height:150,
+    itemProduto: {
+        width: '48%',
+        height: 150,
         borderRadius: 10,
         borderColor: cores.laranjo,
-        backgroundColor: cores.laranjoClaro,
-        borderWidth: 2,        
-        
+        borderWidth: 2,
         alignItems: 'center',
+      backgroundColor:cores.branco
     },
     caixaImagem: {
-        width:'100%',
+        width: '100%',
     },
     imgDestaque: {
         width: '100%',
-        height:70,
+        height: 70,
     },
     btnFavorito: {
         position: 'absolute',
         top: 5,
         right: 5,
         width: 20,
-        height:20,
+        height: 20,
         backgroundColor: cores.branco,
-        borderRadius:50,
+        borderRadius: 50,
     },
     iconeFavorito: {
         fontSize: 20,
         color: cores.laranjo,
         top: -6,
-        right:-2,
+        right: -2,
     },
     nomeProduto: {
         fontSize: 12,
         fontFamily: fontes.negrito,
         color: cores.preto,
-        textAlign:'center',
+        textAlign: 'center',
     },
     descricaoProduto: {
         fontSize: 8,
         fontFamily: fontes.medio,
         color: cores.cinza,
         textAlign: 'center',
-        paddingBlock:2,
+        paddingBlock: 2,
     },
     valorContainer: {
-        width:'100%',
+        width: '100%',
         flexDirection: 'row',
-        justifyContent:'space-around'
+        justifyContent: 'space-around',
+        alignItems: 'flex-end',
+        marginTop:10,
     },
     valorProduto: {
         fontSize: 12,
         fontFamily: fontes.negrito,
-        color: cores.preto,
+        color: cores.laranjo,
         textAlign: 'left',
     },
     btnAdicionar: {
     },
     imgAdicionar: {
-        height:20,
+        height: 20,
         width: 20,
-        
-    },
-});
 
-export default homeStyles;
+    },
+    
+});
+export default cardapioStyle;

@@ -7,7 +7,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import globalStyle from '../styles/globalstyles';
 import homeStyles from "@/styles/homeStyles";
 import { cores } from "@/styles/variaveis";
-import Basecreen from "./base";
+import FooterScreen from "./footer";
 
 
 export default function HomeScreen() {
@@ -85,8 +85,74 @@ export default function HomeScreen() {
                                     </View>
                                 </View>
                             </View>
+
+                            <View style={homeStyles.destaque}>
+                                <Text style={homeStyles.tituloSecao}>Destaques
+                                </Text>
+                                <ScrollView
+                                    contentContainerStyle={homeStyles.conteudoDestaque}
+                                    horizontal
+                                    showsHorizontalScrollIndicator={false}
+                                >
+                                    <View style={homeStyles.itemDestaque}>
+                                        <View style={homeStyles.caixaImagem} >
+                                            <Image source={require('@/assets/images/img/bolo01.png')} style={homeStyles.imgDestaque} />
+                                            <Pressable style={homeStyles.btnFavorito}>
+                                                <Text style={homeStyles.iconeFavorito}>★</Text>
+                                            </Pressable>
+                                        </View>
+                                        <Text style={homeStyles.nomeProduto}>Bolo de banana fit</Text>
+                                        <Text style={homeStyles.descricaoProduto}>Banana Prata com
+                                            canela e gergilim</Text>
+                                        <View style={homeStyles.valorContainer}>
+                                            <Text style={homeStyles.valorProduto}>R$ 18,00</Text>
+                                            <Pressable style={homeStyles.btnAdicionar}>
+                                                <Image style={homeStyles.imgAdicionar} source={require('@/assets/images/img/mais.png')} />
+                                            </Pressable>
+                                        </View>
+                                    </View>
+                                    <View style={homeStyles.itemDestaque}>
+                                        <View style={homeStyles.caixaImagem} >
+                                            <Image source={require('@/assets/images/img/bolo01.png')} style={homeStyles.imgDestaque} />
+                                            <Pressable style={homeStyles.btnFavorito}>
+                                                <Text style={homeStyles.iconeFavorito}>★</Text>
+                                            </Pressable>
+                                        </View>
+                                        <Text style={homeStyles.nomeProduto}>Bolo de banana fit</Text>
+                                        <Text style={homeStyles.descricaoProduto}>Banana Prata com
+                                            canela e gergilim</Text>
+                                        <View style={homeStyles.valorContainer}>
+                                            <Text style={homeStyles.valorProduto}>R$ 18,00</Text>
+                                            <Pressable style={homeStyles.btnAdicionar}>
+                                                <Image style={homeStyles.imgAdicionar} source={require('@/assets/images/img/mais.png')} />
+                                            </Pressable>
+                                        </View>
+                                    </View>
+                                    <View style={homeStyles.itemDestaque}>
+                                        <View style={homeStyles.caixaImagem} >
+                                            <Image source={require('@/assets/images/img/bolo01.png')} style={homeStyles.imgDestaque} />
+                                            <Pressable style={homeStyles.btnFavorito}>
+                                                <Text style={homeStyles.iconeFavorito}>★</Text>
+                                            </Pressable>
+                                        </View>
+                                        <Text style={homeStyles.nomeProduto}>Bolo de banana fit</Text>
+                                        <Text style={homeStyles.descricaoProduto}>Banana Prata com
+                                            canela e gergilim</Text>
+                                        <View style={homeStyles.valorContainer}>
+                                            <Text style={homeStyles.valorProduto}>R$ 18,00</Text>
+                                            <Pressable style={homeStyles.btnAdicionar}>
+                                                <Image style={homeStyles.imgAdicionar} source={require('@/assets/images/img/mais.png')} />
+                                            </Pressable>
+                                        </View>
+                                    </View>
+
+
+                                </ScrollView>
+                            </View>
+
                         </View>
                     </ScrollView>
+                    <FooterScreen/>
                 </SafeAreaView>
 
             </ImageBackground>
