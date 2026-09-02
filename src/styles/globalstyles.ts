@@ -57,6 +57,7 @@ const globalStyle = StyleSheet.create({
 
     }, btnFooter: {
         alignItems: 'center',
+        
     },
     iconeFooter: {
         width: 30,
@@ -68,6 +69,11 @@ const globalStyle = StyleSheet.create({
     },
     txtFooterAtivo: {
         color: cores.laranjo,
+    },
+    pressBtn: {
+        transform: 'scale(0.9)',
+         
+        borderRadius:5,
     },
 
 });

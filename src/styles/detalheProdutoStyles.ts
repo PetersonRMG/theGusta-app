@@ -16,6 +16,7 @@ const detalhesProdutoStyles = StyleSheet.create({
         alignItems: 'flex-end',
         justifyContent: 'space-between',
         flexDirection: 'row',
+        flexWrap: 'wrap',
         width: '100%',
 
     },
@@ -23,10 +24,10 @@ const detalhesProdutoStyles = StyleSheet.create({
         fontSize: 30,
         fontWeight: 'bold',
         color: cores.preto,
-        textAlign:'center',
+        textAlign: 'center',
         fontFamily: fontes.negrito,
     },
-    btnFavorito: { 
+    btnFavorito: {
         right: 5,
         width: 50,
         height: 50,
@@ -39,6 +40,57 @@ const detalhesProdutoStyles = StyleSheet.create({
         top: -15,
         right: -5,
     },
+    img: {
+        width: '100%',
+        height: 200,
+        borderRadius: 20,
+    },
+    tituloDetalhe: {
+        fontFamily: fontes.negrito,
+        fontSize: 20,
+        color: cores.laranjo
+    },
+    valorDetalhe: {
+        fontFamily: fontes.negrito,
+        fontSize: 20,
+        color: cores.laranjo
+    },
+    descricaoDetalhe: {
+        color: cores.cinza,
+        fontSize: 15,
+        alignItems: 'center'
+    },
+    tituloDescricao: {
+        fontFamily: fontes.negrito,
+        fontSize: 20,
+        color: cores.preto
+    },
+    caixaQntde: {
+        flexDirection: 'row',
+        width: 120,
+        height: 50,
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: cores.laranjo,
+        padding: 10,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: cores.branco
+    },
+    btnQntde: {
+        width: 20,
+        height: 20
+    },
+    imgQntde: {
+        width: 20,
+        height: 20
+    },
+    quantidade: {
+        fontSize: 20,
+        color: cores.cinza
+    },
+
+
 })
 
 export default detalhesProdutoStyles;
