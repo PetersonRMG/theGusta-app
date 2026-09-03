@@ -137,12 +137,12 @@ export const sacolaStyles = StyleSheet.create({
         borderColor: cores.laranjo,
         justifyContent: 'space-between',
         marginVertical: 5,
-        alignItems:'center'
+        alignItems: 'center'
     },
     cupomEsquerdo: {
         width: '70%',
-        gap:5,
-        
+        gap: 5,
+
     },
     tituloCupom: {
         color: cores.preto,
@@ -155,50 +155,168 @@ export const sacolaStyles = StyleSheet.create({
         borderBottomWidth: 2,
         borderColor: cores.laranjo,
         height: 20,
-        textTransform:'uppercase'
-        
+        textTransform: 'uppercase'
+
     },
 
     txtAplicar: {
         fontSize: 15,
         fontFamily: fontes.negrito,
         color: cores.laranjo,
-        
+
     },
     endereco: {
-        
+        width: '100%',
+        flexDirection: 'row',
+        backgroundColor: cores.branco,
+        color: cores.laranjo,
+        paddingVertical: 15,
+        paddingHorizontal: 10,
+        borderRadius: 10,
+        borderWidth: 2,
+        borderColor: cores.laranjo,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginVertical: 5,
     },
     imgEndereco: {
-        
+        width: '15%',
+
     },
     infoEndereco: {
-        
+        width: '80%',
     },
     tituloEndereco: {
-        
+        fontFamily: fontes.negrito,
+        color: cores.laranjo,
+        fontSize: 15,
+        marginBottom: 5
     },
     enderecoCompleto: {
-        
+        fontFamily: fontes.comum,
+        fontSize: 10
     },
     telefone: {
-        
+        fontFamily: fontes.comum,
+        color: cores.preto,
+        fontSize: 10
     },
     entrega: {
-        
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap'
     },
     tituloEntrega: {
-        
+        fontFamily: fontes.comum,
+        color: cores.cinza,
+        fontSize: 10,
     },
     tempoEntrega: {
-        
+        fontFamily: fontes.negrito,
+        color: cores.preto,
+        fontSize: 10,
     },
     btnEndereco: {
-        
+
     },
     txtEndereco: {
-        
+        fontFamily: fontes.negrito,
+        color: cores.laranjo,
+        fontSize: 11,
+        textDecorationColor: cores.laranjo,
+        textDecorationLine: 'underline'
+    },
+    subtotal: {
+        width: '100%',   
+        backgroundColor: cores.branco,
+        color: cores.laranjo,
+        paddingVertical: 15,
+        paddingHorizontal: 10,
+        borderRadius: 10,
+        borderWidth: 2,
+        borderColor: cores.laranjo,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginVertical: 5,
+    },
+    areaSubtotal: {
+         
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
+    },
+    textSubtotal: {
+        fontFamily: fontes.comum,
+        fontSize:10
+    },
+    valorSubtotal: {
+        fontFamily: fontes.negrito,
+        fontSize: 10,
+        color: cores.preto
+    },
+    areaEntrega: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
+    },
+    txtEntrega: {       
+        fontSize: 10,
+        color: cores.preto
+    },
+    valorEntrega: {
+        fontFamily: fontes.negrito,
+        fontSize: 10,
+        color: cores.preto
+    },
+    areaDesconto: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
+    },
+    txtDesconto: {
+        color:cores.verde,        
+        fontSize: 10
+    },
+    cupomDesconto: {
+        fontFamily: fontes.negrito,
+        fontSize: 10,
+        color:cores.verde
+    },
+    valorDesconto: {
+        fontFamily: fontes.negrito,
+        fontSize: 11,
+        color: cores.verde
     },
 
+    areaTotal: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
+    },
+    txtTotal: {
+        fontFamily: fontes.negrito,
+        fontSize: 10,
+        color: cores.preto
+    },
+    valorTotal: {
+        fontFamily: fontes.negrito,
+        fontSize: 11,
+        color: cores.laranjo
+    },
+    btnPgamento: {
+        width: '100%',
+        height: 30,
+        borderRadius: 10,
+        backgroundColor: cores.laranjo,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop:10
+    },
+    txtPagamento: {
+        fontFamily: fontes.negrito,
+        fontSize: 15,
+        color: cores.preto
+    },
 
 });
 

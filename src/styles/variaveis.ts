@@ -9,7 +9,8 @@ export const cores = {
     cinza: '#888888',
     preto80: '#00000080',
     branco: '#fff',
-    branco90:'#ffffff90'
+    branco90: '#ffffff90',
+    verde:'#026511',
 };
 
 export const fontes = {

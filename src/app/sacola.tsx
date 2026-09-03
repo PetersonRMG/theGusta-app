@@ -11,7 +11,7 @@ import { sacolaStyles } from "@/styles/sacola.Style";
 import FooterScreen from "@/app/footer";
 
 
-export default function Basecreen() {
+export default function SacolaScreen() {
 
 
 
@@ -73,6 +73,7 @@ export default function Basecreen() {
                                         </View>
                                     </View>
                                 </View>
+
                                 <View style={sacolaStyles.itemSacola}>
                                     <Image style={sacolaStyles.itemImg}
                                         source={require('@/assets/images/img/bolo01.png')}
@@ -102,6 +103,7 @@ export default function Basecreen() {
                                         </View>
                                     </View>
                                 </View>
+
                                 <View style={sacolaStyles.itemSacola}>
                                     <Image style={sacolaStyles.itemImg}
                                         source={require('@/assets/images/img/bolo01.png')}
@@ -164,8 +166,40 @@ export default function Basecreen() {
                                     </View>
 
                                 </View>
+
+                                <View style={sacolaStyles.subtotal}>
+                                    <View style={sacolaStyles.areaSubtotal}>
+                                        <Text style={sacolaStyles.textSubtotal} >Subtotal</Text>
+                                        <Text style={sacolaStyles.valorSubtotal} 
+                                        >R$ 150,40</Text>
+                                    </View>
+                                    <View style={sacolaStyles.areaEntrega}>
+                                        <Text style={sacolaStyles.txtEntrega} >Entrega</Text>
+                                        <Text style={sacolaStyles.valorEntrega}
+                                        >R$ 8,00</Text>
+                                    </View>
+ 
+                                    <View style={sacolaStyles.areaDesconto}>
+                                        <Text style={sacolaStyles.txtDesconto} >Desconto</Text>
+                                        <Text style={sacolaStyles.cupomDesconto}
+                                        >THEGUSTA40</Text>
+                                        <Text style={sacolaStyles.valorDesconto}
+                                        >R$ -15,84</Text>
+                                    </View>
+                                    <View style={globalStyle.separador}></View>
+                                    <View style={sacolaStyles.areaTotal}>
+                                        <Text style={sacolaStyles.txtTotal}>Total</Text>
+                                        <Text style={sacolaStyles.valorTotal}>R$ 142,56</Text>
+                                    </View>
+                                    
+                                </View>
                             
+                                <Pressable   style={({ pressed }) => [sacolaStyles.btnPgamento, pressed && globalStyle.pressBtn]} onPress={()=> router.navigate('/pagamento')}>
+                                    <Text style={sacolaStyles.txtPagamento}>Continuar para pagamento</Text>
+                                </Pressable>
                             </View>
+
+
                             
                         </View>
 

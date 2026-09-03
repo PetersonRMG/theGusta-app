@@ -43,6 +43,13 @@ const globalStyle = StyleSheet.create({
         height: 50,
         margin: 'auto',
     },
+
+    separador: {
+        width: '100%',
+        borderWidth: 2,
+        borderColor: cores.laranjo,
+        marginVertical:5,
+    },
     /*FOOTER*/
 
     footer: {
