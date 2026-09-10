@@ -47,7 +47,7 @@ export default function SacolaScreen() {
                                 <View style={sacolaStyles.itemSacola}>
                                     <Image style={sacolaStyles.itemImg}
                                         source={require('@/assets/images/img/bolo01.png')}
-                                    resizeMode="stretch"/>
+                                        resizeMode="stretch" />
                                     <View style={sacolaStyles.centroItem}>
                                         <Text style={sacolaStyles.tituloItem}> Bolo de Banana Fit</Text>
                                         <Text style={sacolaStyles.descricaoItem}>Banana Prata com canela e gergilim</Text>
@@ -65,7 +65,7 @@ export default function SacolaScreen() {
                                         </Pressable>
                                         <View style={sacolaStyles.caixaQntde}>
                                             <Pressable style={sacolaStyles.btnQntde}><Image style={sacolaStyles.imgQntde}
-                                                source={require('@/assets/images/img/retirar.png')}/></Pressable>
+                                                source={require('@/assets/images/img/retirar.png')} /></Pressable>
                                             <Text style={sacolaStyles.quantidade}>2</Text>
                                             <Pressable style={sacolaStyles.btnQntde}>
                                                 <Image style={sacolaStyles.imgQntde} source={require('@/assets/images/img/adicionar.png')} />
@@ -141,14 +141,14 @@ export default function SacolaScreen() {
                                             placeholderTextColor={cores.cinza}
                                         />
                                     </View>
-                                    <Pressable  style={({ pressed }) => [globalStyle.btnFooter, pressed && globalStyle.pressBtn]} >
+                                    <Pressable style={({ pressed }) => [globalStyle.btnFooter, pressed && globalStyle.pressBtn]} >
                                         <Text style={sacolaStyles.txtAplicar}>Aplicar {'>'}</Text></Pressable>
                                 </View>
 
                                 <View style={sacolaStyles.endereco}>
                                     <Image
                                         source={require('@/assets/images/img/delivery-laranja.png')}
-                                    style={sacolaStyles.imgEndereco}
+                                        style={sacolaStyles.imgEndereco}
                                     />
                                     <View style={sacolaStyles.infoEndereco}>
                                         <Text style={sacolaStyles.tituloEndereco}>Entrega em:</Text>
@@ -161,7 +161,7 @@ export default function SacolaScreen() {
                                                 <Text style={sacolaStyles.txtEndereco}>Trocar endereço</Text>
                                             </Pressable>
                                         </View>
-                                        
+
 
                                     </View>
 
@@ -170,7 +170,7 @@ export default function SacolaScreen() {
                                 <View style={sacolaStyles.subtotal}>
                                     <View style={sacolaStyles.areaSubtotal}>
                                         <Text style={sacolaStyles.textSubtotal} >Subtotal</Text>
-                                        <Text style={sacolaStyles.valorSubtotal} 
+                                        <Text style={sacolaStyles.valorSubtotal}
                                         >R$ 150,40</Text>
                                     </View>
                                     <View style={sacolaStyles.areaEntrega}>
@@ -178,7 +178,7 @@ export default function SacolaScreen() {
                                         <Text style={sacolaStyles.valorEntrega}
                                         >R$ 8,00</Text>
                                     </View>
- 
+
                                     <View style={sacolaStyles.areaDesconto}>
                                         <Text style={sacolaStyles.txtDesconto} >Desconto</Text>
                                         <Text style={sacolaStyles.cupomDesconto}
@@ -191,16 +191,16 @@ export default function SacolaScreen() {
                                         <Text style={sacolaStyles.txtTotal}>Total</Text>
                                         <Text style={sacolaStyles.valorTotal}>R$ 142,56</Text>
                                     </View>
-                                    
+
                                 </View>
-                            
-                                <Pressable   style={({ pressed }) => [sacolaStyles.btnPgamento, pressed && globalStyle.pressBtn]} onPress={()=> router.navigate('/pagamento')}>
+
+                                <Pressable style={({ pressed }) => [sacolaStyles.btnPgamento, pressed && globalStyle.pressBtn]} onPress={() => router.navigate('/pagamento')}>
                                     <Text style={sacolaStyles.txtPagamento}>Continuar para pagamento</Text>
                                 </Pressable>
                             </View>
 
 
-                            
+
                         </View>
 
 
@@ -211,4 +211,5 @@ export default function SacolaScreen() {
 
             </ImageBackground>
         </View>)
+    
 }

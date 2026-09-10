@@ -29,7 +29,9 @@ export default function FooterScreen() {
                 <Text style={globalStyle.textFooter}>Sacola</Text>
             </Pressable>
 
-            <Pressable style={({ pressed }) => [globalStyle.btnFooter, pressed && globalStyle.pressBtn]}>
+            <Pressable
+                onPress={()=> router.navigate('/pedidos')}
+                style={({ pressed }) => [globalStyle.btnFooter, pressed && globalStyle.pressBtn]}>
                 <Image style={globalStyle.iconeFooter} source={require('@/assets/images/img/pedido.png')} />
                 <Text style={globalStyle.textFooter}>Pedidos</Text>
             </Pressable>

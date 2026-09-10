@@ -14,6 +14,33 @@ import FooterScreen from "@/app/footer";
 export default function PagamentoScreen() {
 
 
+    const itensResumo = [
+        {
+            id: 1,
+            image: require('@/assets/images/img/bolo01.png'),
+            valor: 'R$ 150,40',
+            nome: ' Bolo de Banana Fit',
+            qntd: 2,
+            preco: 'R$ 37,60',
+
+        },
+        {
+            id: 2,
+            image: require('@/assets/images/img/bolo01.png'),
+            valor: 'R$ 150,40',
+            nome: ' Bolo de Banana Fit',
+            qntd: 2,
+            preco: 'R$ 37,60',
+        },
+        {
+            id: 3,
+            image: require('@/assets/images/img/bolo01.png'),
+            valor: 'R$ 150,40',
+            nome: ' Bolo de Banana Fit',
+            qntd: 2,
+            preco: 'R$ 37,60',
+        },
+    ];
 
 
     return (
@@ -136,36 +163,22 @@ export default function PagamentoScreen() {
                                             style={pagamentoStyles.tituloResumo}>Resumo do pedido</Text>
                                     </View>
                                     <View style={pagamentoStyles.infoResumo}>
-                                        <View style={pagamentoStyles.caixaResumo}>
-                                            <Image style={pagamentoStyles.imgItemResumo}
-                                                source={require('@/assets/images/img/bolo01.png')} />
-                                            <View style={pagamentoStyles.itemResumo}>
-                                                <Text style={pagamentoStyles.txtResumo}>2x Bolo de Banana Fit</Text>
-                                                <Text style={pagamentoStyles.txtValorResumo}>R$ 37,60</Text>
+                                        {itensResumo.map((item) => (
+                                            <View style={pagamentoStyles.caixaResumo}
+                                                key={item.id}>
+                                                <Image style={pagamentoStyles.imgItemResumo}
+                                                    source={item.image} />
+                                                <View style={pagamentoStyles.itemResumo}>
+                                                    <Text style={pagamentoStyles.txtResumo}> {item.qntd} X {item.nome}   </Text>
+                                                    <Text style={pagamentoStyles.txtValorResumo}>{item.valor}</Text>
+
+                                                </View>
                                             </View>
-                                        </View>
+
+
+                                        ))}
                                     </View>
 
-                                    <View style={pagamentoStyles.infoResumo}>
-                                        <View style={pagamentoStyles.caixaResumo}>
-                                            <Image style={pagamentoStyles.imgItemResumo}
-                                                source={require('@/assets/images/img/bolo01.png')} />
-                                            <View style={pagamentoStyles.itemResumo}>
-                                                <Text style={pagamentoStyles.txtResumo}>2x Bolo de Banana Fit</Text>
-                                                <Text style={pagamentoStyles.txtValorResumo}>R$ 37,60</Text>
-                                            </View>
-                                        </View>
-                                    </View>
-                                    <View style={pagamentoStyles.infoResumo}>
-                                        <View style={pagamentoStyles.caixaResumo}>
-                                            <Image style={pagamentoStyles.imgItemResumo}
-                                                source={require('@/assets/images/img/bolo01.png')} />
-                                            <View style={pagamentoStyles.itemResumo}>
-                                                <Text style={pagamentoStyles.txtResumo}>2x Bolo de Banana Fit</Text>
-                                                <Text style={pagamentoStyles.txtValorResumo}>R$ 37,60</Text>
-                                            </View>
-                                        </View>
-                                    </View>
                                     <View style={globalStyle.separador}></View>
 
                                     <View style={pagamentoStyles.areaSubtotal}>

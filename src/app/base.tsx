@@ -35,5 +35,10 @@ export default function Basecreen() {
                 </SafeAreaView>
 
             </ImageBackground>
-        </View>)
+        </View>
+
+//         style = {({ pressed }) => [pagamentoStyles.btnPgamento, pressed && globalStyle.pressBtn]
+// } onPress = {() => router.navigate('/pagamento')}
+    
+    )
 }
