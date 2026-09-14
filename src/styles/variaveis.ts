@@ -7,10 +7,12 @@ export const cores = {
     laranjoClaro:'#FFE8C5',
     preto: '#000000',
     cinza: '#888888',
+    cinzaClaro:'#F5F5F5',
     preto80: '#00000080',
     branco: '#fff',
     branco90: '#ffffff90',
-    verde:'#026511',
+    verde: '#026511',
+    verdeClaro:"#DDFFEE"
 };
 
 export const fontes = {

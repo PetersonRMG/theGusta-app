@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { router } from "expo-router";
 
+import { Linking } from "react-native";
+
 
 import { View, Text, ImageBackground, Image, TextInput, Pressable, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -41,6 +43,44 @@ export default function PagamentoScreen() {
             preco: 'R$ 37,60',
         },
     ];
+
+    const confirmarPedido = () => {
+        const telefone = "5511937194629";
+
+        const listaProdutos = itensResumo
+            .map( //O map mapeia cada item do array, retornando a quantidade, nome e valor.
+                (item) =>
+                    `${item.qntd}x ${item.nome} - ${item.valor}`
+            )
+            .join("\n"); //O join serve para juntar todos os itens do array, separando-os por uma quebra de linha.
+
+        const mensagem = `
+    🍰 *Novo Pedido - TheGusta*
+ 
+    📝 *Itens do pedido:*
+ 
+    ${listaProdutos}
+ 
+    ---------------------------
+ 
+    Subtotal: R$150,40
+    Entrega: R$8,00
+    Desconto: R$-15,84
+ 
+    💰 *Total: R$142,56*
+ 
+    📍 *Entrega*
+    Avenida Marechal Tito, 1500
+    São Miguel Paulista - São Paulo - SP
+ 
+    💳 *Forma de pagamento:* Pix
+    `;
+
+        const url = `https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`; //O encode serve para codificar a mensagem enviada, evitando caracteres especiais e espaços.
+
+        Linking.openURL(url); // O Linking serve para abrir a aplicação do usuário, fazendo com que ele envie a mensagem para o número especificado.
+
+    };
 
 
     return (
@@ -210,7 +250,7 @@ export default function PagamentoScreen() {
 
 
 
-                                <Pressable style={({ pressed }) => [pagamentoStyles.btnPgamento, pressed && globalStyle.pressBtn]} onPress={() => router.navigate('/pagamento')}>
+                                <Pressable style={({ pressed }) => [pagamentoStyles.btnPgamento, pressed && globalStyle.pressBtn]} onPress={confirmarPedido}>
                                     <Text style={pagamentoStyles.txtConfirmar}>Confirmar Pedido</Text>
                                 </Pressable>
                             </View>
