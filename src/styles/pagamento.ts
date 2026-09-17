@@ -134,33 +134,52 @@ export const pagamentoStyles = StyleSheet.create({
         fontFamily: fontes.negrito
     },
     btnRetirada: {
-        flexDirection: 'row',
+        flexDirection: "row",
         borderRadius: 10,
         borderWidth: 1,
-        color: cores.laranjo,
         borderColor: cores.laranjo,
         width: 150,
-        alignItems: 'center',
-        marginVertical: 2
-
+        overflow: "hidden",
+        marginVertical: 2,
     },
-    btnEntregar: {
+
+    btnOpcao: {
+        flex: 1,
+        paddingVertical: 5,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+
+    btnOpcaoEsquerda: {
+        borderTopLeftRadius: 8,
+        borderBottomLeftRadius: 8,
+    },
+    btnOpcaoCentro: {
+        borderLeftWidth:1,
+        borderRightWidth: 1,
+        borderColor:cores.laranjo,
+    },
+
+    btnOpcaoDireita: {
+        borderTopRightRadius: 8,
+        borderBottomRightRadius: 8,
+    },
+
+    btnAtivo: {
+        backgroundColor: cores.laranjo,
+    },
+
+    txt: {
         fontFamily: fontes.negrito,
         fontSize: 11,
-        backgroundColor: cores.laranjo,
-        borderTopStartRadius: 10,
-        borderBottomStartRadius: 10,
-        paddingVertical: 5,
+    },
 
-        width: '45%'
+    txtAtivo: {
+        color: cores.preto,
     },
-    btnRetirar: {
-        fontSize: 10,
-        width: '45%',
-        paddingVertical: 5,
-    },
-    txt: {
-        margin:'auto'
+
+    txtInativo: {
+        color: cores.laranjo,
     },
     retiradaEsquerda: {
         alignItems: 'center'
@@ -212,27 +231,7 @@ export const pagamentoStyles = StyleSheet.create({
         borderRadius: 10,
          
     },
-    pix: {
-        width: '30%',
-        backgroundColor: cores.laranjo,
-        borderTopStartRadius: 10,
-        borderBottomStartRadius: 10,
-        paddingVertical: 5
-       
-
-
-
-
-    },
-    cartao: {
-        width: '30%',
-        borderStartWidth: 1,
-        borderEndWidth: 1,
-        borderColor: cores.laranjo,
-    },
-    dinheiro: {
-        width: '30%',
-    },
+   
     txtPagamento: {
         textAlign: 'center',
         fontSize: 10,

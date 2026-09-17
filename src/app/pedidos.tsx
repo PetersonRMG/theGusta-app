@@ -10,6 +10,7 @@ import FooterScreen from "@/app/footer";
 
 
 export default function PedidoScreen() {
+    const [tipoRetirada, setTipoRetirada] = useState<"entrega" | "retirada">("entrega");
 
     const itensResumo = [
         {
@@ -70,10 +71,29 @@ export default function PedidoScreen() {
                             </View>
                             <View style={pedidosStyles.main}>
                                 <View style={pedidosStyles.posicaoPedido}>
-   
+
                                     <View style={pedidosStyles.btnAndamento}>
-                                        <Pressable style={pedidosStyles.btnEntregar}><Text style={pedidosStyles.txt} >Entrega</Text></Pressable>
-                                        <Pressable style={pedidosStyles.btnRetirar}><Text style={pedidosStyles.txt}>Retirada</Text></Pressable>
+                                        <Pressable onPress={() => setTipoRetirada('entrega')}
+                                            style={[
+                                                pedidosStyles.btnOpcao,
+                                                pedidosStyles.btnOpcaoEsquerda,
+                                                tipoRetirada === "entrega" && pedidosStyles.btnAtivo,
+                                            ]}><Text style={[
+                                                    pedidosStyles.txt,
+                                                    tipoRetirada === "entrega"
+                                                        ? pedidosStyles.txtAtivo
+                                                        : pedidosStyles.txtInativo,
+                                                ]}>Entrega</Text></Pressable>
+                                        <Pressable onPress={() => setTipoRetirada('retirada')} style={[
+                                            pedidosStyles.btnOpcao,
+                                            pedidosStyles.btnOpcaoDireita,
+                                            tipoRetirada === "retirada" && pedidosStyles.btnAtivo,
+                                        ]}><Text style={[
+                                            pedidosStyles.txt,
+                                            tipoRetirada === "retirada"
+                                                ? pedidosStyles.txtAtivo
+                                                : pedidosStyles.txtInativo,
+                                        ]}>Retirada</Text></Pressable>
                                     </View>
                                 </View>
 
@@ -142,7 +162,7 @@ export default function PedidoScreen() {
                                     <View style={pedidosStyles.areaPrevisao}>
 
                                     </View>
-                                    <Pressable onPress={()=>router.navigate('/detalhe-pedido')} style={({ pressed }) => [pedidosStyles.btnDetalhes, pressed && globalStyle.pressBtn]}>
+                                    <Pressable onPress={() => router.navigate('/detalhe-pedido')} style={({ pressed }) => [pedidosStyles.btnDetalhes, pressed && globalStyle.pressBtn]}>
                                         <Text style={pedidosStyles.txtDetalhes}> Ver detalhes</Text>
                                     </Pressable>
 
@@ -310,5 +330,5 @@ export default function PedidoScreen() {
                 </SafeAreaView>
 
             </ImageBackground>
-        </View>)
+        </View >)
 }

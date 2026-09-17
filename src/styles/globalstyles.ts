@@ -46,9 +46,51 @@ const globalStyle = StyleSheet.create({
 
     separador: {
         width: '100%',
-        borderWidth: 2,
+        borderWidth: 1,
         borderColor: cores.laranjo,
         marginVertical:5,
+    },
+
+    conteudo: {
+        marginTop: 50,
+        marginBottom: 30,
+
+    },
+    header: {
+        width: '80%',
+        margin: 'auto',
+    },
+    conteudoHeader: {
+        alignItems: 'flex-end',
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        width: '100%',
+
+    },
+    titulo: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        color: cores.preto,
+        fontFamily: fontes.negrito,
+
+    },
+    bordaPerfil: {
+
+    },
+    perfil: {
+        width: 70,
+        height: 70,
+    },
+    subtitulo: {
+        marginTop: 10,
+        fontSize: 18,
+        color: cores.cinza,
+    },
+    main: {
+        width: '80%',
+        alignItems: 'center',
+        margin: 'auto',
+        marginTop: 15,
     },
     /*FOOTER*/
 
@@ -78,8 +120,7 @@ const globalStyle = StyleSheet.create({
         color: cores.laranjo,
     },
     pressBtn: {
-        transform: 'scale(0.9)',
-         
+        transform: 'scale(0.9)',         
         borderRadius:5,
     },
 

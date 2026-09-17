@@ -9,7 +9,7 @@ import homeStyles from "@/styles/homeStyles";
 import FooterScreen from "@/app/footer";
 
 
-export default function Basecreen() {
+export default function ConfigScreen() {
 
 
 
@@ -27,18 +27,33 @@ export default function Basecreen() {
                     </Pressable>
 
                     <ScrollView style={globalStyle.scrollConteudo}>
-
+                        <View style={globalStyle.conteudo}>
+                            <View style={globalStyle.header}>
+                                <View style={globalStyle.conteudoHeader}>
+                                    <Text style={globalStyle.titulo}></Text>
+                                    <View style={globalStyle.bordaPerfil}>
+                                        <Image
+                                            style={globalStyle.perfil}
+                                            source={require('@/assets/images/img/logo.png')} />
+                                    </View>
+                                </View>
+                                <Text style={globalStyle.subtitulo}>
+                                    Confirme entrega e forma de pagamento.
+                                </Text>
+                            </View>
+                            <View style={globalStyle.main}></View>
+                        </View>
 
 
                     </ScrollView>
-                    <FooterScreen/>
+                    <FooterScreen />
                 </SafeAreaView>
 
             </ImageBackground>
         </View>
 
-//         style = {({ pressed }) => [pagamentoStyles.btnPgamento, pressed && globalStyle.pressBtn]
-// } onPress = {() => router.navigate('/pagamento')}
-    
+        //         style = {({ pressed }) => [globalStyle.btnPgamento, pressed && globalStyle.pressBtn]
+        // } onPress = {() => router.navigate('/pagamento')}
+
     )
 }

@@ -57,15 +57,35 @@ export default function Basecreen() {
                                         tarde. </Text>
                                     <View>
 
+                                    </View>
 
-                                        <View style={detalhesProdutoStyles.caixaQntde}>
-                                            <Pressable style={detalhesProdutoStyles.btnQntde}><Image style={detalhesProdutoStyles.imgQntde}
-                                                source={require('@/assets/images/img/retirar.png')} /></Pressable>
-                                            <Text style={detalhesProdutoStyles.quantidade}>2</Text>
-                                            <Pressable style={detalhesProdutoStyles.btnQntde}>
-                                                <Image style={detalhesProdutoStyles.imgQntde} source={require('@/assets/images/img/adicionar.png')} />
-                                            </Pressable>
+                                    <View style={detalhesProdutoStyles.areaVenda}>
+                                        <View style={detalhesProdutoStyles.linhaQtdeSubtotal}>
+                                            <View style={detalhesProdutoStyles.caixaQtde}>
+                                                <Pressable style={detalhesProdutoStyles.btnQtde}>
+                                                    <Image
+                                                        style={detalhesProdutoStyles.imgQtde}
+                                                        source={require("@/assets/images/img/retirar.png")}
+                                                    />
+                                                </Pressable>
+                                                <Text style={detalhesProdutoStyles.quantidade}>2</Text>
+                                                <Pressable style={detalhesProdutoStyles.btnQtde}>
+                                                    <Image
+                                                        style={detalhesProdutoStyles.imgQtde}
+                                                        source={require("@/assets/images/img/adicionar.png")}
+                                                    />
+                                                </Pressable>
+                                            </View>
+                                            <View style={detalhesProdutoStyles.caixaSubtotal}>
+                                                <Text style={detalhesProdutoStyles.txtSubtotal}>Subtotal</Text>
+                                                <Text style={detalhesProdutoStyles.valorSubtotal}>R$ 151,80</Text>
+                                            </View>
                                         </View>
+
+                                        <Pressable style={({ pressed }) => [detalhesProdutoStyles.btnSubtotal, pressed && globalStyle.pressBtn]
+                                        } >
+                                            <Text style={detalhesProdutoStyles.txtSacola}>Adicionar à Sacola</Text>
+                                        </Pressable>
                                     </View>
                                 </View>
                             </View>

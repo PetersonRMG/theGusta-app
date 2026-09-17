@@ -36,7 +36,7 @@ export default function FooterScreen() {
                 <Text style={globalStyle.textFooter}>Pedidos</Text>
             </Pressable>
 
-            <Pressable style={({ pressed }) => [globalStyle.btnFooter, pressed && globalStyle.pressBtn]}>
+            <Pressable onPress={()=> router.navigate('/config')} style={({ pressed }) => [globalStyle.btnFooter, pressed && globalStyle.pressBtn]}>
                 <Image style={globalStyle.iconeFooter} source={require('@/assets/images/img/config.png')} />
                 <Text style={globalStyle.textFooter}>Config</Text>
             </Pressable>

@@ -60,21 +60,34 @@ export const pedidosStyles = StyleSheet.create({
         
 
     },
-    btnEntregar: {
-        fontFamily: fontes.negrito,
-        fontSize: 11,
-        backgroundColor: cores.laranjo,
-        borderTopStartRadius: 10,
-        borderBottomStartRadius: 10,
+    btnOpcao: {
+        flex: 1,
         paddingVertical: 5,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor:cores.branco,
+    },
 
-        width: '50%'
+    btnOpcaoEsquerda: {
+        borderTopLeftRadius: 8,
+        borderBottomLeftRadius: 8,
     },
-    btnRetirar: {
-        fontSize: 10,
-        width: '50%',
-        paddingVertical: 5,
+    btnOpcaoDireita: {
+        borderTopRightRadius: 8,
+        borderBottomRightRadius: 8,
     },
+
+    btnAtivo: {
+        backgroundColor: cores.laranjo,
+    },
+    txtAtivo: {
+        color: cores.preto,
+    },
+
+    txtInativo: {
+        color: cores.laranjo,
+    },
+
     txt: {
         margin: 'auto'
     },

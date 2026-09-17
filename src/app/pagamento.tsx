@@ -14,6 +14,8 @@ import FooterScreen from "@/app/footer";
 
 
 export default function PagamentoScreen() {
+    const [tipoRetirada, setTipoRetirada] = useState<"entrega" | "retirada">("entrega");
+    const [tipoPagamento, setTipoPagamento] = useState<"pix" | "cartao" |"dinheiro">("pix");
 
 
     const itensResumo = [
@@ -139,8 +141,30 @@ export default function PagamentoScreen() {
                                             Endereço / Retira
                                         </Text>
                                         <View style={pagamentoStyles.btnRetirada}>
-                                            <Pressable style={pagamentoStyles.btnEntregar}><Text style={pagamentoStyles.txt} >Entrega</Text></Pressable>
-                                            <Pressable style={pagamentoStyles.btnRetirar}><Text style={pagamentoStyles.txt}>Retirada</Text></Pressable>
+                                            <Pressable
+                                                onPress={()=> setTipoRetirada('entrega')}
+                                                style={[
+                                                    pagamentoStyles.btnOpcao,
+                                                    pagamentoStyles.btnOpcaoEsquerda,
+                                                    tipoRetirada === "entrega" && pagamentoStyles.btnAtivo,
+                                                ]}>
+                                                <Text style={[
+                                                    pagamentoStyles.txt,
+                                                    tipoRetirada === "entrega"
+                                                        ? pagamentoStyles.txtAtivo
+                                                        : pagamentoStyles.txtInativo,
+                                                ]} >Entrega</Text>
+                                            </Pressable>
+                                            <Pressable onPress={() => setTipoRetirada('retirada')} style={[
+                                                pagamentoStyles.btnOpcao,
+                                                pagamentoStyles.btnOpcaoDireita,
+                                                tipoRetirada === "retirada" && pagamentoStyles.btnAtivo,
+                                            ]}><Text style={[
+                                                pagamentoStyles.txt,
+                                                tipoRetirada === "retirada"
+                                                    ? pagamentoStyles.txtAtivo
+                                                    : pagamentoStyles.txtInativo,
+                                            ]}>Retirada</Text></Pressable>
                                         </View>
                                     </View>
                                     <View style={pagamentoStyles.retiradaEsquerda}>
@@ -159,14 +183,44 @@ export default function PagamentoScreen() {
                                             Forma de pagamento
                                         </Text>
                                         <View style={pagamentoStyles.tipoPagamento}>
-                                            <Pressable style={pagamentoStyles.pix}>
-                                                <Text style={pagamentoStyles.txtPagamento}>Pix</Text>
+                                            <Pressable onPress={() => setTipoPagamento('pix')}
+                                                style={[
+                                                    pagamentoStyles.btnOpcao,
+                                                    pagamentoStyles.btnOpcaoEsquerda,
+                                                    tipoPagamento === "pix" && pagamentoStyles.btnAtivo,
+                                                ]}> 
+                                                <Text style={[
+                                                    pagamentoStyles.txt,
+                                                    tipoPagamento === "pix"
+                                                        ? pagamentoStyles.txtAtivo
+                                                        : pagamentoStyles.txtInativo,
+                                                ]}>Pix</Text>
                                             </Pressable>
-                                            <Pressable style={pagamentoStyles.cartao}>
-                                                <Text style={pagamentoStyles.txtPagamento}>Cartão</Text>
+                                            <Pressable onPress={() => setTipoPagamento('cartao')}
+                                                style={[
+                                                    pagamentoStyles.btnOpcao,
+                                                    pagamentoStyles.btnOpcaoCentro,
+                                                    tipoPagamento === "cartao" && pagamentoStyles.btnAtivo,
+                                                ]}> 
+                                                <Text style={[
+                                                    pagamentoStyles.txt,
+                                                    tipoPagamento === "cartao"
+                                                        ? pagamentoStyles.txtAtivo
+                                                        : pagamentoStyles.txtInativo,
+                                                ]}>Cartão</Text>
                                             </Pressable>
-                                            <Pressable style={pagamentoStyles.dinheiro}>
-                                                <Text style={pagamentoStyles.txtPagamento} >Dinheiro</Text>
+                                            <Pressable onPress={() => setTipoPagamento('dinheiro')}
+                                                style={[
+                                                    pagamentoStyles.btnOpcao,
+                                                    pagamentoStyles.btnOpcaoDireita,
+                                                    tipoPagamento === "dinheiro" && pagamentoStyles.btnAtivo,
+                                                ]}> 
+                                                <Text style={[
+                                                    pagamentoStyles.txt,
+                                                    tipoPagamento === "dinheiro"
+                                                        ? pagamentoStyles.txtAtivo
+                                                        : pagamentoStyles.txtInativo,
+                                                ]}>Dinheiro</Text>
                                             </Pressable>
                                         </View>
 
@@ -178,6 +232,7 @@ export default function PagamentoScreen() {
                                 <View style={pagamentoStyles.obs}>
                                     <Image
                                         source={require('@/assets/images/img/mensagem.png')}
+                                        resizeMode="stretch"
                                         style={pagamentoStyles.imgObs}
                                     />
                                     <View style={pagamentoStyles.infoObs}>
@@ -198,7 +253,8 @@ export default function PagamentoScreen() {
                                 <View style={pagamentoStyles.resumo}>
                                     <View style={pagamentoStyles.topoResumo}>
                                         <Image style={pagamentoStyles.imgResumo}
-                                            source={require('@/assets/images/img/pedido.png')} />
+                                            source={require('@/assets/images/img/pedido.png')}
+                                            resizeMode="stretch"/>
                                         <Text
                                             style={pagamentoStyles.tituloResumo}>Resumo do pedido</Text>
                                     </View>

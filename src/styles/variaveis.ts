@@ -12,7 +12,9 @@ export const cores = {
     branco: '#fff',
     branco90: '#ffffff90',
     verde: '#026511',
-    verdeClaro:"#DDFFEE"
+    verdeClaro: "#DDFFEE",
+    vermelho: "#650202",
+    vermelhoClaro:"#FFDDDD",
 };
 
 export const fontes = {
