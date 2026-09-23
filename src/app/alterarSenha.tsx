@@ -12,6 +12,7 @@ import FooterScreen from "@/app/footer";
 export default function AlterarSenhaScreen() {
 
     const [verSenha, setVerSenha] = useState(false);
+    const [confirmarSenha, setConfirmarSenha] = useState(false);
 
 
     return (
@@ -63,7 +64,11 @@ export default function AlterarSenhaScreen() {
                                                     onPress={() => setVerSenha((current) => !current)}
                                                 >
                                                     <Image
-                                                        source={verSenha ? require('@/assets/images/img/esconder.png') : require('@/assets/images/img/mostrar.png')}
+                                                        source={
+                                                            verSenha
+                                                                ? require('@/assets/images/img/esconder.png')
+                                                                : require('@/assets/images/img/mostrar.png')
+                                                        }
                                                         style={alterarSenhaStyles.mostrarSenha}
                                                     />
                                                 </Pressable>
@@ -105,17 +110,17 @@ export default function AlterarSenhaScreen() {
                                             <View style={alterarSenhaStyles.areaInput}>
                                                 <TextInput
                                                     placeholder="Senha"
-                                                    secureTextEntry={!verSenha}
+                                                    secureTextEntry={!confirmarSenha}
                                                     placeholderTextColor={'#888888'}
                                                     keyboardType="visible-password"
                                                     style={alterarSenhaStyles.txtInput}
                                                 />
                                                 <Pressable
                                                     style={alterarSenhaStyles.btnMostrarSenha}
-                                                    onPress={() => setVerSenha((current) => !current)}
+                                                    onPress={() => setConfirmarSenha((current) => !current)}
                                                 >
                                                     <Image
-                                                        source={verSenha ? require('@/assets/images/img/esconder.png') : require('@/assets/images/img/mostrar.png')}
+                                                        source={confirmarSenha ? require('@/assets/images/img/esconder.png') : require('@/assets/images/img/mostrar.png')}
                                                         style={alterarSenhaStyles.mostrarSenha}
                                                     />
                                                 </Pressable>

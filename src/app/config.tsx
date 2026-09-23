@@ -11,7 +11,7 @@ import FooterScreen from "@/app/footer";
 
 export default function ConfigScreen() {
 
-
+    const [notificacao, setNotificacao] = useState<"ativo" | "inativo">("inativo");
 
 
     return (
@@ -127,9 +127,17 @@ export default function ConfigScreen() {
                                                 <Text style={configStyles.titulo}>Ativar notificações</Text>
                                                 <Text style={configStyles.subtitulo}>Receba avisos sobre pedidos e promoções</Text>
                                             </View>
-                                            <Pressable style={({ pressed }) => [configStyles.btnNoti, pressed && globalStyle.pressBtn]}>
+                                            {
+                                                notificacao === 'inativo' ? (<>
+                                            <Pressable onPress={() => setNotificacao('ativo')}  style={({ pressed }) => [configStyles.btnNoti, pressed && globalStyle.pressBtn]}>
                                                 <Image source={require('@/assets/images/img/inativo.png')} />
                                             </Pressable>
+                                                
+                                                
+                                                </>): notificacao === 'ativo' ? (<Pressable onPress={() => setNotificacao('inativo')} style={({ pressed }) => [configStyles.btnNoti, pressed && globalStyle.pressBtn]}>
+                                                    <Image source={require('@/assets/images/img/ativo.png')} />
+                                                </Pressable>) : <></>
+                                            }
                                         </View>
                                     </View>
 

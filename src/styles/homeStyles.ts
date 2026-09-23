@@ -131,15 +131,17 @@ const homeStyles = StyleSheet.create({
         borderColor: cores.laranjo,
         backgroundColor: cores.laranjoClaro,
         borderWidth: 2,        
-        
         alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingBottom:5,
     },
     caixaImagem: {
         width:'100%',
     },
     imgDestaque: {
         width: '100%',
-        height:70,
+        height: 70,
+        gap:10,
     },
     btnFavorito: {
         position: 'absolute',
@@ -167,7 +169,8 @@ const homeStyles = StyleSheet.create({
         fontFamily: fontes.medio,
         color: cores.cinza,
         textAlign: 'center',
-        paddingBlock:2,
+        paddingBlock: 2,
+        overflow:'hidden',
     },
     valorContainer: {
         width:'100%',

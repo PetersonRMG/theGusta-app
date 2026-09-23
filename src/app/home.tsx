@@ -11,6 +11,60 @@ import FooterScreen from "./footer";
 
 
 export default function HomeScreen() {
+
+    const [produtosDestaque, setProdutosDestaque] = useState([
+        {
+            id: 1,
+            nome: "Bolo de Banana Fit",
+            descricao: "Banana prata com canela e gergilim",
+            categoria: "Bolos",
+            valor: "18,80",
+            imagem: require('@/assets/images/img/bolo01.png'),
+            status: "ativo",
+            favorito: false
+
+        },
+        {
+            id: 2,
+            nome: "Bolo de chocolate",
+            descricao: "Chocolate com cobertura cremosa",
+            categoria: "Bolos",
+            valor: "21,80",
+            imagem: require('@/assets/images/img/bolo01.png'),
+            status: "ativo",
+            favorito: false
+        },
+        {
+            id: 3,
+            nome: "Bolo de Cenoura",
+            descricao: "Cenoura com cobertura de chocolate",
+            categoria: "Bolos",
+            valor: "19,80",
+            imagem: require('@/assets/images/img/bolo01.png'),
+            status: "ativo",
+            favorito: false
+        },
+        {
+            id: 4,
+            nome: "Brigadeiro Gourmet",
+            descricao: "Brigadeiro de chocolate com cobertura de chantily",
+            categoria: "Doces",
+            valor: "6,80",
+            imagem: require('@/assets/images/img/bolo01.png'),
+            status: "ativo",
+            favorito: false
+        }
+    ]);
+
+    const alterarFavorito = (id: number) => {
+        setProdutosDestaque((produtoFavorito) =>
+            produtoFavorito.map((produto) =>
+                produto.id === id
+                    ? {...produto , favorito: !produto.favorito}
+                    : produto,
+            ),
+        );
+    };
     return (
         <View style={globalStyle.container}>
             <ImageBackground
@@ -90,69 +144,42 @@ export default function HomeScreen() {
                                 <Text style={homeStyles.tituloSecao}>Destaques
                                 </Text>
                                 <ScrollView
-                                    contentContainerStyle={homeStyles.conteudoDestaque}
                                     horizontal
+                                    nestedScrollEnabled={true}
                                     showsHorizontalScrollIndicator={false}
+                                    contentContainerStyle={homeStyles.conteudoDestaque}
+                                    
                                 >
-                                    <View style={homeStyles.itemDestaque}>
-                                        <View style={homeStyles.caixaImagem} >
-                                            <Image source={require('@/assets/images/img/bolo01.png')} style={homeStyles.imgDestaque} />
-                                            <Pressable style={homeStyles.btnFavorito}>
-                                                <Text style={homeStyles.iconeFavorito}>★</Text>
-                                            </Pressable>
+
+                                    {produtosDestaque.map((produto) => (
+
+                                        <View key={produto.id} style={homeStyles.itemDestaque}>
+                                            <View style={homeStyles.caixaImagem} >
+                                                <Image source={produto.imagem} style={homeStyles.imgDestaque} />
+                                                <Pressable onPress={()=>alterarFavorito(produto.id)} style={homeStyles.btnFavorito}>
+                                                    <Text style={homeStyles.iconeFavorito}>
+                                                        {produto.favorito ? "★" : "☆"}
+                                                    </Text>
+                                                </Pressable>
+                                            </View>
+                                            <Text style={homeStyles.nomeProduto}>{produto.nome}</Text>
+                                            <Text style={homeStyles.descricaoProduto}>{produto.descricao}</Text>
+                                            <View style={homeStyles.valorContainer}>
+                                                <Text style={homeStyles.valorProduto}>R$ {produto.valor}</Text>
+                                                <Pressable style={homeStyles.btnAdicionar}>
+                                                    <Image style={homeStyles.imgAdicionar} source={require('@/assets/images/img/mais.png')} />
+                                                </Pressable>
+                                            </View>
                                         </View>
-                                        <Text style={homeStyles.nomeProduto}>Bolo de banana fit</Text>
-                                        <Text style={homeStyles.descricaoProduto}>Banana Prata com
-                                            canela e gergilim</Text>
-                                        <View style={homeStyles.valorContainer}>
-                                            <Text style={homeStyles.valorProduto}>R$ 18,00</Text>
-                                            <Pressable style={homeStyles.btnAdicionar}>
-                                                <Image style={homeStyles.imgAdicionar} source={require('@/assets/images/img/mais.png')} />
-                                            </Pressable>
-                                        </View>
-                                    </View>
-                                    <View style={homeStyles.itemDestaque}>
-                                        <View style={homeStyles.caixaImagem} >
-                                            <Image source={require('@/assets/images/img/bolo01.png')} style={homeStyles.imgDestaque} />
-                                            <Pressable style={homeStyles.btnFavorito}>
-                                                <Text style={homeStyles.iconeFavorito}>★</Text>
-                                            </Pressable>
-                                        </View>
-                                        <Text style={homeStyles.nomeProduto}>Bolo de banana fit</Text>
-                                        <Text style={homeStyles.descricaoProduto}>Banana Prata com
-                                            canela e gergilim</Text>
-                                        <View style={homeStyles.valorContainer}>
-                                            <Text style={homeStyles.valorProduto}>R$ 18,00</Text>
-                                            <Pressable style={homeStyles.btnAdicionar}>
-                                                <Image style={homeStyles.imgAdicionar} source={require('@/assets/images/img/mais.png')} />
-                                            </Pressable>
-                                        </View>
-                                    </View>
-                                    <View style={homeStyles.itemDestaque}>
-                                        <View style={homeStyles.caixaImagem} >
-                                            <Image source={require('@/assets/images/img/bolo01.png')} style={homeStyles.imgDestaque} />
-                                            <Pressable style={homeStyles.btnFavorito}>
-                                                <Text style={homeStyles.iconeFavorito}>★</Text>
-                                            </Pressable>
-                                        </View>
-                                        <Text style={homeStyles.nomeProduto}>Bolo de banana fit</Text>
-                                        <Text style={homeStyles.descricaoProduto}>Banana Prata com
-                                            canela e gergilim</Text>
-                                        <View style={homeStyles.valorContainer}>
-                                            <Text style={homeStyles.valorProduto}>R$ 18,00</Text>
-                                            <Pressable style={homeStyles.btnAdicionar}>
-                                                <Image style={homeStyles.imgAdicionar} source={require('@/assets/images/img/mais.png')} />
-                                            </Pressable>
-                                        </View>
-                                    </View>
 
 
+                                    ))}
                                 </ScrollView>
                             </View>
 
                         </View>
                     </ScrollView>
-                    <FooterScreen/>
+                    <FooterScreen />
                 </SafeAreaView>
 
             </ImageBackground>

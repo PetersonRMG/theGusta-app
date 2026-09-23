@@ -69,7 +69,11 @@ export default function LoginScreen() {
                     onPress={() => setVerSenha((current) => !current)}
                   >
                     <Image
-                      source={verSenha ? require('@/assets/images/img/esconder.png') : require('@/assets/images/img/mostrar.png')}
+                      source={
+                        verSenha
+                        ? require('@/assets/images/img/esconder.png')
+                          : require('@/assets/images/img/mostrar.png')
+                      }
                       style={loginStyle.mostrarSenha}
                     />
 

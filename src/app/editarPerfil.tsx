@@ -10,6 +10,8 @@ import FooterScreen from "@/app/footer";
 
 
 export default function ConfigScreen() {
+
+    const [notificacao , setNotificacao] = useState(false)
  
 
     return (
@@ -155,10 +157,12 @@ export default function ConfigScreen() {
                                             <Text style={editarPerfilStyles.tituloNoti}>Receber novidades  e promoções </Text>
                                             <Text style={editarPerfilStyles.subtituloNoti}>Receba ofertas exclusivas e novidades da The Gusta</Text>
                                         </View>
-                                        <Pressable style={({ pressed }) => [editarPerfilStyles.btnNoti, pressed && globalStyle.pressBtn]}>
+                                        <Pressable onPress={()=> setNotificacao((current)=> !current) } style={({ pressed }) => [editarPerfilStyles.btnNoti, pressed && globalStyle.pressBtn]}>
         
                                             <Image
-                                                style={editarPerfilStyles.imgBtnNoti}    source={require('@/assets/images/img/inativo.png')} />
+                                                style={editarPerfilStyles.imgBtnNoti} source={notificacao
+                                                    ? require('@/assets/images/img/inativo.png')
+                                                    : require('@/assets/images/img/ativo.png') } />
                                         </Pressable>
                                     </View>
                                 </View>

@@ -12,7 +12,7 @@ const globalStyle = StyleSheet.create({
         width: '100%',
         maxWidth: 440,
         height: '100%',
-        backgroundSize: 'convain'
+    
     },
     logoMaior: {
         width: 160,
