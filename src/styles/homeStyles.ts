@@ -90,28 +90,27 @@ const homeStyles = StyleSheet.create({
     conteudoCategoria: {
         width: '100%',
         flexDirection: 'row',
-        justifyContent:'space-between',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        gap: 5,
         
     },
     itemCategoria: {
-        width: 55,
-        height: 55,
+        width: 100,
         borderRadius: 10,
         borderColor: cores.laranjo,
-        backgroundColor:cores.laranjoClaro,
+        backgroundColor: cores.laranjo,
         borderWidth: 2,
         paddingVertical: 3,
         paddingHorizontal: 10,
-        alignItems:'center',
+        alignItems: 'center',
+
     },
-    imgCategoria: {
-        width: 30,
-        height:30,
-    },
+ 
     txtCategoria: {
         fontSize: 11,
         fontFamily: fontes.comum,
-        color:cores.cinza,
+        color:cores.branco,
     },
     destaque: {
         width: '100%',

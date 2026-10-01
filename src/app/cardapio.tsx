@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { router } from "expo-router";
+import { useState, useEffect, useRef } from "react";
+import { router, useLocalSearchParams } from "expo-router";
 
 
 import { View, Text, ImageBackground, Image, TextInput, Pressable, ScrollView } from "react-native";
@@ -10,10 +10,95 @@ import FooterScreen from "@/app/footer";
 import cardapioStyle from "@/styles/cardapioStyles";
 import { cores } from "@/styles/variaveis";
 
+const SERVIDOR = "http://localhost:8081";
+const API = `${SERVIDOR}/api/v1`;
+const IMAGEM = `${SERVIDOR}/davilla/images/`;
+
 
 export default function CardapioScreen() {
 
+    const [produtos, setProdutos] = useState<any[]>([]);
+    const [categorias, setCategorias] = useState<any[]>([]);
+    const [semImagem, setSemImagem] = useState<number[]>([]);
+    const { categoria } = useLocalSearchParams();
 
+
+    useEffect(() => {
+        async function carregarProdutos() {
+            try {
+                const resposta = await fetch(`${API}/produtos`)
+                const json = await resposta.json();
+
+                const produtos = json.data
+                    .filter((produto: any) => produto.status_produto === "ATIVO")
+                    .map((produto: any) => ({
+                        ...produto,
+
+                        favorito: false,
+                    }))
+                    .sort((a: any, b: any) => a.nome_produto - b.nome_produto);
+                setProdutos(produtos)
+                console.log('ta ai os produtos', produtos)
+            } catch (erro) {
+                console.log("deu b.o nos produtos", erro)
+            }
+        }
+        carregarProdutos();
+
+        async function carregarCategorias() {
+            try {
+                const resposta = await fetch(`${API}/categorias`);
+                const json = await resposta.json();
+                const categoriasAtivas = json.data
+                    .filter((categoria: any) => categoria.status_categoria === "ATIVO")
+                    .sort((a: any, b: any) => a.ordem_categoria - b.ordem_categoria);
+                setCategorias(categoriasAtivas);
+                console.log('categorias', categoriasAtivas)
+
+            } catch (erro) {
+                console.log("deu b.o nas categorias", erro)
+            }
+        }
+        carregarCategorias();
+
+    }, [])
+
+
+    const categoriasComProdutos = categorias
+        .filter((categoria) =>
+            produtos.some((produto) =>
+                produto.categoria_produto.id_categoria === categoria.id_categoria
+            ));
+
+    const scrollRef = useRef<ScrollView>(null);
+    const posicaoCategoria = useRef<{ [key: number]: number }>({});
+    const scrollInicialRealizado = useRef(false);
+
+    useEffect(() => {
+        if (!categoria || scrollInicialRealizado.current)
+        { return }
+        const idCategoria = Number(categoria);
+        const intervalo = setInterval(() => {
+            const posicao = posicaoCategoria.current[idCategoria];
+            if (posicao != undefined) {
+                scrollRef.current?.scrollTo({
+                    y: posicao, animated: true,
+                });
+                scrollInicialRealizado.current = true;
+                clearInterval(intervalo);
+            }
+        }, 100);
+    }, [])
+
+    const alterarFavorito = (id: number) => {
+        setProdutos((produtoFavorito) =>
+            produtoFavorito.map((produto) =>
+                produto.id_produto === id
+                    ? { ...produto, favorito: !produto.favorito }
+                    : produto,
+            ),
+        );
+    };
 
 
     return (
@@ -27,7 +112,9 @@ export default function CardapioScreen() {
                     <Pressable style={globalStyle.btnVoltar} onPress={() => router.back}>
                         <Image style={globalStyle.imgVoltar} source={require('@/assets/images/img/voltar.png')} />
                     </Pressable>
-                    <ScrollView style={globalStyle.scrollConteudo}>
+                    <ScrollView
+                        ref={scrollRef}
+                        style={globalStyle.scrollConteudo}>
                         <View style={cardapioStyle.conteudo}>
 
                             <View style={cardapioStyle.header}>
@@ -62,399 +149,88 @@ export default function CardapioScreen() {
                                 </View>
 
                                 <View style={cardapioStyle.conteudoCategoria} >
-                                    <View style={cardapioStyle.itemCategoria}>
-                                        <Image source={require('@/assets/images/img/bolo.png')} style={cardapioStyle.imgCategoria} />
-                                        <Text style={cardapioStyle.txtCategoria}>Bolos</Text>
-                                    </View>
-                                    <View style={cardapioStyle.itemCategoria}>
-                                        <Image source={require('@/assets/images/img/brigadeiro.png')} style={cardapioStyle.imgCategoria} />
-                                        <Text style={cardapioStyle.txtCategoria}>Doces</Text>
-                                    </View>
-                                    <View style={cardapioStyle.itemCategoria}>
-                                        <Image source={require('@/assets/images/img/torta.png')} style={cardapioStyle.imgCategoria} />
-                                        <Text style={cardapioStyle.txtCategoria}>Tortas</Text>
-                                    </View>
-                                    <View style={cardapioStyle.itemCategoria}>
-                                        <Image source={require('@/assets/images/img/copo-de-plastico.png')} style={cardapioStyle.imgCategoria} />
-                                        <Text style={cardapioStyle.txtCategoria}>Bebidas</Text>
-                                    </View>
-                                    <View style={cardapioStyle.itemCategoria} >
-                                        <Image source={require('@/assets/images/img/presente-de-supermercado.png')} style={cardapioStyle.imgCategoria} />
-                                        <Text style={cardapioStyle.txtCategoria}>Kits</Text>
-                                    </View>
-                                </View>
+                                    {categoriasComProdutos.map((categoria) => (
 
+                                        <Pressable
+                                            key={categoria.id_categoria}
+                                            style={({ pressed }) => [cardapioStyle.itemCategoria, pressed && globalStyle.pressBtn]}
+                                            onPress={() => router.push({
+                                                pathname: "/cardapio",
+                                                params: {
+                                                    categoria: categoria.id_categoria.toString(),
+                                                },
+                                            })}
+                                        >
 
-                                <View style={cardapioStyle.categoria}>
-                                    <Text style={cardapioStyle.tituloCategoria} >Bolos</Text>
-                                    <View style={cardapioStyle.produtos}>
-                                        <View style={cardapioStyle.itemProduto}>
-                                            <View style={cardapioStyle.caixaImagem} >
-                                                <Image source={require('@/assets/images/img/bolo01.png')} style={cardapioStyle.imgDestaque} />
-                                                <Pressable style={cardapioStyle.btnFavorito}>
-                                                    <Text style={cardapioStyle.iconeFavorito}>★</Text>
-                                                </Pressable>
-                                            </View>
-                                            <Text style={cardapioStyle.nomeProduto}>Bolo de banana fit</Text>
-                                            <Text style={cardapioStyle.descricaoProduto}>Banana Prata com
-                                                canela e gergilim</Text>
-                                            <View style={cardapioStyle.valorContainer}>
-                                                <Text style={cardapioStyle.valorProduto}>R$ 18,00</Text>
-                                                <Pressable style={cardapioStyle.btnAdicionar} onPress={() => router.navigate('/detalheProduto')}>
-                                                    <Image style={cardapioStyle.imgAdicionar} source={require('@/assets/images/img/mais.png')} />
-                                                </Pressable>
-                                            </View>
-                                        </View>
-                                        <View style={cardapioStyle.itemProduto}>
-                                            <View style={cardapioStyle.caixaImagem} >
-                                                <Image source={require('@/assets/images/img/bolo01.png')} style={cardapioStyle.imgDestaque} />
-                                                <Pressable style={cardapioStyle.btnFavorito} >
-                                                    <Text style={cardapioStyle.iconeFavorito}>★</Text>
-                                                </Pressable>
-                                            </View>
-                                            <Text style={cardapioStyle.nomeProduto}>Bolo de banana fit</Text>
-                                            <Text style={cardapioStyle.descricaoProduto}>Banana Prata com
-                                                canela e gergilim</Text>
-                                            <View style={cardapioStyle.valorContainer}>
-                                                <Text style={cardapioStyle.valorProduto}>R$ 18,00</Text>
-                                                <Pressable style={cardapioStyle.btnAdicionar} onPress={()=> router.navigate('/detalheProduto')}>
-                                                    <Image style={cardapioStyle.imgAdicionar} source={require('@/assets/images/img/mais.png')} />
-                                                </Pressable>
-                                            </View>
-                                        </View>
-                                        <View style={cardapioStyle.itemProduto}>
-                                            <View style={cardapioStyle.caixaImagem} >
-                                                <Image source={require('@/assets/images/img/bolo01.png')} style={cardapioStyle.imgDestaque} />
-                                                <Pressable style={cardapioStyle.btnFavorito} onPress={() => router.navigate('/detalheProduto')}>
-                                                    <Text style={cardapioStyle.iconeFavorito}>★</Text>
-                                                </Pressable>
-                                            </View>
-                                            <Text style={cardapioStyle.nomeProduto}>Bolo de banana fit</Text>
-                                            <Text style={cardapioStyle.descricaoProduto}>Banana Prata com
-                                                canela e gergilim</Text>
-                                            <View style={cardapioStyle.valorContainer}>
-                                                <Text style={cardapioStyle.valorProduto}>R$ 18,00</Text>
-                                                <Pressable style={cardapioStyle.btnAdicionar} onPress={()=> router.navigate('/detalheProduto')}>
-                                                    <Image style={cardapioStyle.imgAdicionar} source={require('@/assets/images/img/mais.png')} />
-                                                </Pressable>
-                                            </View>
-                                        </View>
-                                        <View style={cardapioStyle.itemProduto}>
-                                            <View style={cardapioStyle.caixaImagem} >
-                                                <Image source={require('@/assets/images/img/bolo01.png')} style={cardapioStyle.imgDestaque} />
-                                                <Pressable style={cardapioStyle.btnFavorito}>
-                                                    <Text style={cardapioStyle.iconeFavorito}>★</Text>
-                                                </Pressable>
-                                            </View>
-                                            <Text style={cardapioStyle.nomeProduto}>Bolo de banana fit</Text>
-                                            <Text style={cardapioStyle.descricaoProduto}>Banana Prata com
-                                                canela e gergilim</Text>
-                                            <View style={cardapioStyle.valorContainer}>
-                                                <Text style={cardapioStyle.valorProduto}>R$ 18,00</Text>
-                                                <Pressable style={cardapioStyle.btnAdicionar} onPress={()=> router.navigate('/detalheProduto')}>
-                                                    <Image style={cardapioStyle.imgAdicionar} source={require('@/assets/images/img/mais.png')} />
-                                                </Pressable>
-                                            </View>
-                                        </View>
-                                    </View>
+                                            <Text style={cardapioStyle.txtCategoria}>{categoria.nome_categoria}</Text>
+                                        </Pressable>
+                                    ))}
 
                                 </View>
-                                <View style={cardapioStyle.categoria}>
-                                    <Text style={cardapioStyle.tituloCategoria} >Doces</Text>
-                                    <View style={cardapioStyle.produtos}>
-                                        <View style={cardapioStyle.itemProduto}>
-                                            <View style={cardapioStyle.caixaImagem} >
-                                                <Image source={require('@/assets/images/img/bolo01.png')} style={cardapioStyle.imgDestaque} />
-                                                <Pressable style={cardapioStyle.btnFavorito}>
-                                                    <Text style={cardapioStyle.iconeFavorito}>★</Text>
-                                                </Pressable>
-                                            </View>
-                                            <Text style={cardapioStyle.nomeProduto}>Bolo de banana fit</Text>
-                                            <Text style={cardapioStyle.descricaoProduto}>Banana Prata com
-                                                canela e gergilim</Text>
-                                            <View style={cardapioStyle.valorContainer}>
-                                                <Text style={cardapioStyle.valorProduto}>R$ 18,00</Text>
-                                                <Pressable style={cardapioStyle.btnAdicionar} onPress={()=> router.navigate('/detalheProduto')}>
-                                                    <Image style={cardapioStyle.imgAdicionar} source={require('@/assets/images/img/mais.png')} />
-                                                </Pressable>
-                                            </View>
-                                        </View>
-                                        <View style={cardapioStyle.itemProduto}>
-                                            <View style={cardapioStyle.caixaImagem} >
-                                                <Image source={require('@/assets/images/img/bolo01.png')} style={cardapioStyle.imgDestaque} />
-                                                <Pressable style={cardapioStyle.btnFavorito}>
-                                                    <Text style={cardapioStyle.iconeFavorito}>★</Text>
-                                                </Pressable>
-                                            </View>
-                                            <Text style={cardapioStyle.nomeProduto}>Bolo de banana fit</Text>
-                                            <Text style={cardapioStyle.descricaoProduto}>Banana Prata com
-                                                canela e gergilim</Text>
-                                            <View style={cardapioStyle.valorContainer}>
-                                                <Text style={cardapioStyle.valorProduto}>R$ 18,00</Text>
-                                                <Pressable style={cardapioStyle.btnAdicionar} onPress={()=> router.navigate('/detalheProduto')}>
-                                                    <Image style={cardapioStyle.imgAdicionar} source={require('@/assets/images/img/mais.png')} />
-                                                </Pressable>
-                                            </View>
-                                        </View>
-                                        <View style={cardapioStyle.itemProduto}>
-                                            <View style={cardapioStyle.caixaImagem} >
-                                                <Image source={require('@/assets/images/img/bolo01.png')} style={cardapioStyle.imgDestaque} />
-                                                <Pressable style={cardapioStyle.btnFavorito}>
-                                                    <Text style={cardapioStyle.iconeFavorito}>★</Text>
-                                                </Pressable>
-                                            </View>
-                                            <Text style={cardapioStyle.nomeProduto}>Bolo de banana fit</Text>
-                                            <Text style={cardapioStyle.descricaoProduto}>Banana Prata com
-                                                canela e gergilim</Text>
-                                            <View style={cardapioStyle.valorContainer}>
-                                                <Text style={cardapioStyle.valorProduto}>R$ 18,00</Text>
-                                                <Pressable style={cardapioStyle.btnAdicionar} onPress={()=> router.navigate('/detalheProduto')}>
-                                                    <Image style={cardapioStyle.imgAdicionar} source={require('@/assets/images/img/mais.png')} />
-                                                </Pressable>
-                                            </View>
-                                        </View>
-                                        <View style={cardapioStyle.itemProduto}>
-                                            <View style={cardapioStyle.caixaImagem} >
-                                                <Image source={require('@/assets/images/img/bolo01.png')} style={cardapioStyle.imgDestaque} />
-                                                <Pressable style={cardapioStyle.btnFavorito}>
-                                                    <Text style={cardapioStyle.iconeFavorito}>★</Text>
-                                                </Pressable>
-                                            </View>
-                                            <Text style={cardapioStyle.nomeProduto}>Bolo de banana fit</Text>
-                                            <Text style={cardapioStyle.descricaoProduto}>Banana Prata com
-                                                canela e gergilim</Text>
-                                            <View style={cardapioStyle.valorContainer}>
-                                                <Text style={cardapioStyle.valorProduto}>R$ 18,00</Text>
-                                                <Pressable style={cardapioStyle.btnAdicionar} onPress={()=> router.navigate('/detalheProduto')}>
-                                                    <Image style={cardapioStyle.imgAdicionar} source={require('@/assets/images/img/mais.png')} />
-                                                </Pressable>
-                                            </View>
-                                        </View>
-                                    </View>
 
-                                </View>
-                                <View style={cardapioStyle.categoria}>
-                                    <Text style={cardapioStyle.tituloCategoria} >Tortas</Text>
-                                    <View style={cardapioStyle.produtos}>
-                                        <View style={cardapioStyle.itemProduto}>
-                                            <View style={cardapioStyle.caixaImagem} >
-                                                <Image source={require('@/assets/images/img/bolo01.png')} style={cardapioStyle.imgDestaque} />
-                                                <Pressable style={cardapioStyle.btnFavorito}>
-                                                    <Text style={cardapioStyle.iconeFavorito}>★</Text>
-                                                </Pressable>
-                                            </View>
-                                            <Text style={cardapioStyle.nomeProduto}>Bolo de banana fit</Text>
-                                            <Text style={cardapioStyle.descricaoProduto}>Banana Prata com
-                                                canela e gergilim</Text>
-                                            <View style={cardapioStyle.valorContainer}>
-                                                <Text style={cardapioStyle.valorProduto}>R$ 18,00</Text>
-                                                <Pressable style={cardapioStyle.btnAdicionar} onPress={()=> router.navigate('/detalheProduto')}>
-                                                    <Image style={cardapioStyle.imgAdicionar} source={require('@/assets/images/img/mais.png')} />
-                                                </Pressable>
-                                            </View>
-                                        </View>
-                                        <View style={cardapioStyle.itemProduto}>
-                                            <View style={cardapioStyle.caixaImagem} >
-                                                <Image source={require('@/assets/images/img/bolo01.png')} style={cardapioStyle.imgDestaque} />
-                                                <Pressable style={cardapioStyle.btnFavorito}>
-                                                    <Text style={cardapioStyle.iconeFavorito}>★</Text>
-                                                </Pressable>
-                                            </View>
-                                            <Text style={cardapioStyle.nomeProduto}>Bolo de banana fit</Text>
-                                            <Text style={cardapioStyle.descricaoProduto}>Banana Prata com
-                                                canela e gergilim</Text>
-                                            <View style={cardapioStyle.valorContainer}>
-                                                <Text style={cardapioStyle.valorProduto}>R$ 18,00</Text>
-                                                <Pressable style={cardapioStyle.btnAdicionar} onPress={()=> router.navigate('/detalheProduto')}>
-                                                    <Image style={cardapioStyle.imgAdicionar} source={require('@/assets/images/img/mais.png')} />
-                                                </Pressable>
-                                            </View>
-                                        </View>
-                                        <View style={cardapioStyle.itemProduto}>
-                                            <View style={cardapioStyle.caixaImagem} >
-                                                <Image source={require('@/assets/images/img/bolo01.png')} style={cardapioStyle.imgDestaque} />
-                                                <Pressable style={cardapioStyle.btnFavorito}>
-                                                    <Text style={cardapioStyle.iconeFavorito}>★</Text>
-                                                </Pressable>
-                                            </View>
-                                            <Text style={cardapioStyle.nomeProduto}>Bolo de banana fit</Text>
-                                            <Text style={cardapioStyle.descricaoProduto}>Banana Prata com
-                                                canela e gergilim</Text>
-                                            <View style={cardapioStyle.valorContainer}>
-                                                <Text style={cardapioStyle.valorProduto}>R$ 18,00</Text>
-                                                <Pressable style={cardapioStyle.btnAdicionar} onPress={()=> router.navigate('/detalheProduto')}>
-                                                    <Image style={cardapioStyle.imgAdicionar} source={require('@/assets/images/img/mais.png')} />
-                                                </Pressable>
-                                            </View>
-                                        </View>
-                                        <View style={cardapioStyle.itemProduto}>
-                                            <View style={cardapioStyle.caixaImagem} >
-                                                <Image source={require('@/assets/images/img/bolo01.png')} style={cardapioStyle.imgDestaque} />
-                                                <Pressable style={cardapioStyle.btnFavorito}>
-                                                    <Text style={cardapioStyle.iconeFavorito}>★</Text>
-                                                </Pressable>
-                                            </View>
-                                            <Text style={cardapioStyle.nomeProduto}>Bolo de banana fit</Text>
-                                            <Text style={cardapioStyle.descricaoProduto}>Banana Prata com
-                                                canela e gergilim</Text>
-                                            <View style={cardapioStyle.valorContainer}>
-                                                <Text style={cardapioStyle.valorProduto}>R$ 18,00</Text>
-                                                <Pressable style={cardapioStyle.btnAdicionar} onPress={()=> router.navigate('/detalheProduto')}>
-                                                    <Image style={cardapioStyle.imgAdicionar} source={require('@/assets/images/img/mais.png')} />
-                                                </Pressable>
-                                            </View>
-                                        </View>
-                                    </View>
 
-                                </View>
-                                <View style={cardapioStyle.categoria}>
-                                    <Text style={cardapioStyle.tituloCategoria} >Bebidas</Text>
-                                    <View style={cardapioStyle.produtos}>
-                                        <View style={cardapioStyle.itemProduto}>
-                                            <View style={cardapioStyle.caixaImagem} >
-                                                <Image source={require('@/assets/images/img/bolo01.png')} style={cardapioStyle.imgDestaque} />
-                                                <Pressable style={cardapioStyle.btnFavorito}>
-                                                    <Text style={cardapioStyle.iconeFavorito}>★</Text>
-                                                </Pressable>
-                                            </View>
-                                            <Text style={cardapioStyle.nomeProduto}>Bolo de banana fit</Text>
-                                            <Text style={cardapioStyle.descricaoProduto}>Banana Prata com
-                                                canela e gergilim</Text>
-                                            <View style={cardapioStyle.valorContainer}>
-                                                <Text style={cardapioStyle.valorProduto}>R$ 18,00</Text>
-                                                <Pressable style={cardapioStyle.btnAdicionar} onPress={()=> router.navigate('/detalheProduto')}>
-                                                    <Image style={cardapioStyle.imgAdicionar} source={require('@/assets/images/img/mais.png')} />
-                                                </Pressable>
-                                            </View>
-                                        </View>
-                                        <View style={cardapioStyle.itemProduto}>
-                                            <View style={cardapioStyle.caixaImagem} >
-                                                <Image source={require('@/assets/images/img/bolo01.png')} style={cardapioStyle.imgDestaque} />
-                                                <Pressable style={cardapioStyle.btnFavorito}>
-                                                    <Text style={cardapioStyle.iconeFavorito}>★</Text>
-                                                </Pressable>
-                                            </View>
-                                            <Text style={cardapioStyle.nomeProduto}>Bolo de banana fit</Text>
-                                            <Text style={cardapioStyle.descricaoProduto}>Banana Prata com
-                                                canela e gergilim</Text>
-                                            <View style={cardapioStyle.valorContainer}>
-                                                <Text style={cardapioStyle.valorProduto}>R$ 18,00</Text>
-                                                <Pressable style={cardapioStyle.btnAdicionar} onPress={()=> router.navigate('/detalheProduto')}>
-                                                    <Image style={cardapioStyle.imgAdicionar} source={require('@/assets/images/img/mais.png')} />
-                                                </Pressable>
-                                            </View>
-                                        </View>
-                                        <View style={cardapioStyle.itemProduto}>
-                                            <View style={cardapioStyle.caixaImagem} >
-                                                <Image source={require('@/assets/images/img/bolo01.png')} style={cardapioStyle.imgDestaque} />
-                                                <Pressable style={cardapioStyle.btnFavorito}>
-                                                    <Text style={cardapioStyle.iconeFavorito}>★</Text>
-                                                </Pressable>
-                                            </View>
-                                            <Text style={cardapioStyle.nomeProduto}>Bolo de banana fit</Text>
-                                            <Text style={cardapioStyle.descricaoProduto}>Banana Prata com
-                                                canela e gergilim</Text>
-                                            <View style={cardapioStyle.valorContainer}>
-                                                <Text style={cardapioStyle.valorProduto}>R$ 18,00</Text>
-                                                <Pressable style={cardapioStyle.btnAdicionar} onPress={()=> router.navigate('/detalheProduto')}>
-                                                    <Image style={cardapioStyle.imgAdicionar} source={require('@/assets/images/img/mais.png')} />
-                                                </Pressable>
-                                            </View>
-                                        </View>
-                                        <View style={cardapioStyle.itemProduto}>
-                                            <View style={cardapioStyle.caixaImagem} >
-                                                <Image source={require('@/assets/images/img/bolo01.png')} style={cardapioStyle.imgDestaque} />
-                                                <Pressable style={cardapioStyle.btnFavorito}>
-                                                    <Text style={cardapioStyle.iconeFavorito}>★</Text>
-                                                </Pressable>
-                                            </View>
-                                            <Text style={cardapioStyle.nomeProduto}>Bolo de banana fit</Text>
-                                            <Text style={cardapioStyle.descricaoProduto}>Banana Prata com
-                                                canela e gergilim</Text>
-                                            <View style={cardapioStyle.valorContainer}>
-                                                <Text style={cardapioStyle.valorProduto}>R$ 18,00</Text>
-                                                <Pressable style={cardapioStyle.btnAdicionar} onPress={()=> router.navigate('/detalheProduto')}>
-                                                    <Image style={cardapioStyle.imgAdicionar} source={require('@/assets/images/img/mais.png')} />
-                                                </Pressable>
-                                            </View>
-                                        </View>
-                                    </View>
+                                {categoriasComProdutos
+                                    .map((categoria) => (
+                                        <View
+                                            key={categoria.id_categoria}
+                                            style={cardapioStyle.categoria}
+                                            onLayout={(event) => {
+                                                posicaoCategoria.current[categoria.id_categoria] =
+                                                    event.nativeEvent.layout.y;
+                                            }}
+                                        >
+                                            <Text style={cardapioStyle.tituloCategoria} >{categoria.nome_categoria}</Text>
 
-                                </View>
-                                <View style={cardapioStyle.categoria}>
-                                    <Text style={cardapioStyle.tituloCategoria} >Kits</Text>
-                                    <View style={cardapioStyle.produtos}>
-                                        <View style={cardapioStyle.itemProduto}>
-                                            <View style={cardapioStyle.caixaImagem} >
-                                                <Image source={require('@/assets/images/img/bolo01.png')} style={cardapioStyle.imgDestaque} />
-                                                <Pressable style={cardapioStyle.btnFavorito}>
-                                                    <Text style={cardapioStyle.iconeFavorito}>★</Text>
-                                                </Pressable>
-                                            </View>
-                                            <Text style={cardapioStyle.nomeProduto}>Bolo de banana fit</Text>
-                                            <Text style={cardapioStyle.descricaoProduto}>Banana Prata com
-                                                canela e gergilim</Text>
-                                            <View style={cardapioStyle.valorContainer}>
-                                                <Text style={cardapioStyle.valorProduto}>R$ 18,00</Text>
-                                                <Pressable style={cardapioStyle.btnAdicionar} onPress={()=> router.navigate('/detalheProduto')}>
-                                                    <Image style={cardapioStyle.imgAdicionar} source={require('@/assets/images/img/mais.png')} />
-                                                </Pressable>
-                                            </View>
-                                        </View>
-                                        <View style={cardapioStyle.itemProduto}>
-                                            <View style={cardapioStyle.caixaImagem} >
-                                                <Image source={require('@/assets/images/img/bolo01.png')} style={cardapioStyle.imgDestaque} />
-                                                <Pressable style={cardapioStyle.btnFavorito}>
-                                                    <Text style={cardapioStyle.iconeFavorito}>★</Text>
-                                                </Pressable>
-                                            </View>
-                                            <Text style={cardapioStyle.nomeProduto}>Bolo de banana fit</Text>
-                                            <Text style={cardapioStyle.descricaoProduto}>Banana Prata com
-                                                canela e gergilim</Text>
-                                            <View style={cardapioStyle.valorContainer}>
-                                                <Text style={cardapioStyle.valorProduto}>R$ 18,00</Text>
-                                                <Pressable style={cardapioStyle.btnAdicionar} onPress={()=> router.navigate('/detalheProduto')}>
-                                                    <Image style={cardapioStyle.imgAdicionar} source={require('@/assets/images/img/mais.png')} />
-                                                </Pressable>
-                                            </View>
-                                        </View>
-                                        <View style={cardapioStyle.itemProduto}>
-                                            <View style={cardapioStyle.caixaImagem} >
-                                                <Image source={require('@/assets/images/img/bolo01.png')} style={cardapioStyle.imgDestaque} />
-                                                <Pressable style={cardapioStyle.btnFavorito}>
-                                                    <Text style={cardapioStyle.iconeFavorito}>★</Text>
-                                                </Pressable>
-                                            </View>
-                                            <Text style={cardapioStyle.nomeProduto}>Bolo de banana fit</Text>
-                                            <Text style={cardapioStyle.descricaoProduto}>Banana Prata com
-                                                canela e gergilim</Text>
-                                            <View style={cardapioStyle.valorContainer}>
-                                                <Text style={cardapioStyle.valorProduto}>R$ 18,00</Text>
-                                                <Pressable style={cardapioStyle.btnAdicionar} onPress={()=> router.navigate('/detalheProduto')}>
-                                                    <Image style={cardapioStyle.imgAdicionar} source={require('@/assets/images/img/mais.png')} />
-                                                </Pressable>
-                                            </View>
-                                        </View>
-                                        <View style={cardapioStyle.itemProduto}>
-                                            <View style={cardapioStyle.caixaImagem} >
-                                                <Image source={require('@/assets/images/img/bolo01.png')} style={cardapioStyle.imgDestaque} />
-                                                <Pressable style={cardapioStyle.btnFavorito}>
-                                                    <Text style={cardapioStyle.iconeFavorito}>★</Text>
-                                                </Pressable>
-                                            </View>
-                                            <Text style={cardapioStyle.nomeProduto}>Bolo de banana fit</Text>
-                                            <Text style={cardapioStyle.descricaoProduto}>Banana Prata com
-                                                canela e gergilim</Text>
-                                            <View style={cardapioStyle.valorContainer}>
-                                                <Text style={cardapioStyle.valorProduto}>R$ 18,00</Text>
-                                                <Pressable style={cardapioStyle.btnAdicionar} onPress={()=> router.navigate('/detalheProduto')}>
-                                                    <Image style={cardapioStyle.imgAdicionar} source={require('@/assets/images/img/mais.png')} />
-                                                </Pressable>
-                                            </View>
-                                        </View>
-                                    </View>
+                                            <View style={cardapioStyle.produtos}>
+                                                {produtos
+                                                    .filter((produto) => produto.categoria_produto.id_categoria === categoria.id_categoria)
+                                                    .map((produto) => (
+                                                        <View
+                                                            key={produto.id_produto}
+                                                            style={cardapioStyle.itemProduto}>
+                                                            <View style={cardapioStyle.caixaImagem} >
+                                                                <Image
+                                                                    source={
+                                                                        semImagem.includes(produto.id_produto) || !produto.foto_produto
+                                                                            ? { uri: `${IMAGEM}/produto/sem-imagem.png` }
+                                                                            : { uri: `${IMAGEM}/${produto.foto_produto}` }
+                                                                    }
+                                                                    onError={() => {
+                                                                        setSemImagem((imagem) => [
+                                                                            ...imagem,
+                                                                            produto.id_produto
+                                                                        ]);
+                                                                    }}
 
-                                </View>
+                                                                    style={cardapioStyle.imgDestaque} />
+                                                                <Pressable onPress={() => alterarFavorito(produto.id_produto)} style={cardapioStyle.btnFavorito}>
+                                                                    <Text style={cardapioStyle.iconeFavorito}>{produto.favorito ? "★" : "☆"}</Text>
+                                                                </Pressable>
+                                                            </View>
+                                                            <Text style={cardapioStyle.nomeProduto}>{produto.nome_produto}</Text>
+                                                            <Text style={cardapioStyle.descricaoProduto}>{produto.descricao_produto}</Text>
+                                                            <View style={cardapioStyle.valorContainer}>
+                                                                <Text style={cardapioStyle.valorProduto}>
+                                                                    {Number(produto.valor_produto)
+                                                                        .toLocaleString('pt-BR',
+                                                                            {
+                                                                                style: "currency",
+                                                                                currency: "BRL",
+                                                                            })}
+                                                                </Text>
+                                                                <Pressable style={cardapioStyle.btnAdicionar} onPress={() => router.navigate('/detalheProduto')}>
+                                                                    <Image style={cardapioStyle.imgAdicionar} source={require('@/assets/images/img/mais.png')} />
+                                                                </Pressable>
+                                                            </View>
+                                                        </View>
+
+                                                    ))}
+
+                                            </View>
+
+                                        </View>
+
+                                    ))}
 
                             </View>
 

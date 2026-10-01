@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { router } from "expo-router";
 
 
@@ -9,61 +9,86 @@ import homeStyles from "@/styles/homeStyles";
 import { cores } from "@/styles/variaveis";
 import FooterScreen from "./footer";
 
+const SERVIDOR = "http://localhost:8081";
+const API = `${SERVIDOR}/api/v1`;
+const IMAGEM = `${SERVIDOR}/davilla/images/`;
 
 export default function HomeScreen() {
+    const [produtos, setProdutos] = useState<any[]>([]);
+    const [categorias, setCategorias] = useState<any[]>([]);
+    const [produtosEmDestaque, setProdutosEmDestaque] = useState<any[]>([]);
 
-    const [produtosDestaque, setProdutosDestaque] = useState([
-        {
-            id: 1,
-            nome: "Bolo de Banana Fit",
-            descricao: "Banana prata com canela e gergilim",
-            categoria: "Bolos",
-            valor: "18,80",
-            imagem: require('@/assets/images/img/bolo01.png'),
-            status: "ativo",
-            favorito: false
+    console.log('teste', IMAGEM)
 
-        },
-        {
-            id: 2,
-            nome: "Bolo de chocolate",
-            descricao: "Chocolate com cobertura cremosa",
-            categoria: "Bolos",
-            valor: "21,80",
-            imagem: require('@/assets/images/img/bolo01.png'),
-            status: "ativo",
-            favorito: false
-        },
-        {
-            id: 3,
-            nome: "Bolo de Cenoura",
-            descricao: "Cenoura com cobertura de chocolate",
-            categoria: "Bolos",
-            valor: "19,80",
-            imagem: require('@/assets/images/img/bolo01.png'),
-            status: "ativo",
-            favorito: false
-        },
-        {
-            id: 4,
-            nome: "Brigadeiro Gourmet",
-            descricao: "Brigadeiro de chocolate com cobertura de chantily",
-            categoria: "Doces",
-            valor: "6,80",
-            imagem: require('@/assets/images/img/bolo01.png'),
-            status: "ativo",
-            favorito: false
+    useEffect(() => {
+        async function carregarProdutos() {
+            try {
+                const resposta = await fetch(`${API}/produtos`)
+                const json = await resposta.json();
+
+                const produtos = json.data
+                    .filter((produto: any) => produto.status_produto === "ATIVO")
+                    .map((produto: any) => ({
+                        ...produto,
+
+                        favorito: false,
+                    }))
+                setProdutos(produtos)
+
+                const destaques = produtos.filter(
+                    (produto: any) => produto.destaque_produto === "SIM")
+                setProdutosEmDestaque(destaques);
+                console.log('ta ai os produtos', produtos)
+            } catch (erro) {
+                console.log("deu b.o", erro)
+            }
         }
-    ]);
+        carregarProdutos()
+
+        async function carregarCategorias() {
+            try {
+                const resposta = await fetch(`${API}/categorias`);
+                const json = await resposta.json();
+                const categoriasAtivas = json.data
+                    .filter((categoria: any) => categoria.status_categoria === "ATIVO")
+                    .sort((a: any, b: any) => a.ordem_categoria - b.ordem_categoria);
+                setCategorias(categoriasAtivas);
+                console.log('categorias', categoriasAtivas)
+
+            } catch (erro) {
+                console.log("deu b.o nas categorias", erro)
+            }
+        }
+        carregarCategorias();
+
+    }, [])
+
+    const [semImg, setSemImg] = useState<number[]>([]);
+
+    const categoriasComProdutos = categorias
+        .filter((categoria) =>
+            produtos.some((produto) =>
+                produto.categoria_produto.id_categoria === categoria.id_categoria
+            ));
 
     const alterarFavorito = (id: number) => {
-        setProdutosDestaque((produtoFavorito) =>
+        setProdutosEmDestaque((produtoFavorito) =>
             produtoFavorito.map((produto) =>
-                produto.id === id
-                    ? {...produto , favorito: !produto.favorito}
+                produto.id_produto === id
+                    ? { ...produto, favorito: !produto.favorito }
                     : produto,
             ),
         );
+    };
+
+    const posicaoCategoria = useRef<{ [key: number]: number }>({});
+    const scrollRef = useRef<ScrollView>(null);
+    
+    function irParaCategoria(idCategoria: number) {
+        const posicao = posicaoCategoria.current[idCategoria];
+        if (posicao != undefined) {
+            scrollRef.current?.scrollTo({ y: posicao, animated: true })
+        }
     };
     return (
         <View style={globalStyle.container}>
@@ -117,64 +142,89 @@ export default function HomeScreen() {
                                 <Text style={homeStyles.tituloSecao}>Categorias
                                 </Text>
                                 <View style={homeStyles.conteudoCategoria} >
-                                    <View style={homeStyles.itemCategoria}>
-                                        <Image source={require('@/assets/images/img/bolo.png')} style={homeStyles.imgCategoria} />
-                                        <Text style={homeStyles.txtCategoria}>Bolos</Text>
-                                    </View>
-                                    <View style={homeStyles.itemCategoria}>
-                                        <Image source={require('@/assets/images/img/brigadeiro.png')} style={homeStyles.imgCategoria} />
-                                        <Text style={homeStyles.txtCategoria}>Doces</Text>
-                                    </View>
-                                    <View style={homeStyles.itemCategoria}>
-                                        <Image source={require('@/assets/images/img/torta.png')} style={homeStyles.imgCategoria} />
-                                        <Text style={homeStyles.txtCategoria}>Tortas</Text>
-                                    </View>
-                                    <View style={homeStyles.itemCategoria}>
-                                        <Image source={require('@/assets/images/img/copo-de-plastico.png')} style={homeStyles.imgCategoria} />
-                                        <Text style={homeStyles.txtCategoria}>Bebidas</Text>
-                                    </View>
-                                    <View style={homeStyles.itemCategoria} >
-                                        <Image source={require('@/assets/images/img/presente-de-supermercado.png')} style={homeStyles.imgCategoria} />
-                                        <Text style={homeStyles.txtCategoria}>Kits</Text>
-                                    </View>
+                                    {categoriasComProdutos.map((categoria) => (
+
+                                        <Pressable
+                                            key={categoria.id_categoria}
+                                            style={({ pressed }) => [homeStyles.itemCategoria, pressed && globalStyle.pressBtn]}
+                                            onPress={() => router.push({
+                                                pathname: "/cardapio",
+                                                params: {
+                                                    categoria:categoria.id_categoria.toString(),
+                                                },
+                                            })}
+                                        >
+                                            
+
+                                            <Text style={homeStyles.txtCategoria}>{categoria.nome_categoria}</Text>
+                                        </Pressable>
+                                    ))}
+
                                 </View>
                             </View>
 
                             <View style={homeStyles.destaque}>
                                 <Text style={homeStyles.tituloSecao}>Destaques
                                 </Text>
-                                <ScrollView
-                                    horizontal
-                                    nestedScrollEnabled={true}
-                                    showsHorizontalScrollIndicator={false}
-                                    contentContainerStyle={homeStyles.conteudoDestaque}
-                                    
-                                >
+                                {produtosEmDestaque.length > 0 ? (
+                                    <ScrollView
+                                        horizontal
+                                        showsHorizontalScrollIndicator={false}
+                                        contentContainerStyle={homeStyles.conteudoDestaque}
 
-                                    {produtosDestaque.map((produto) => (
+                                    >
 
-                                        <View key={produto.id} style={homeStyles.itemDestaque}>
-                                            <View style={homeStyles.caixaImagem} >
-                                                <Image source={produto.imagem} style={homeStyles.imgDestaque} />
-                                                <Pressable onPress={()=>alterarFavorito(produto.id)} style={homeStyles.btnFavorito}>
-                                                    <Text style={homeStyles.iconeFavorito}>
-                                                        {produto.favorito ? "★" : "☆"}
+                                        {produtosEmDestaque.map((produto) => (
+
+                                            <View key={produto.id_produto} style={homeStyles.itemDestaque}>
+                                                <View style={homeStyles.caixaImagem} >
+                                                    <Image source={
+                                                        semImg.includes(produto.id_produto) || !produto.foto_produto
+                                                            ? { uri: `${IMAGEM}/produto/sem-imagem.png` }
+                                                            : { uri: `${IMAGEM}/${produto.foto_produto}` }
+                                                    }
+                                                        onError={() => {
+                                                            setSemImg((imagem) => [
+                                                                ...imagem,
+                                                                produto.id_prosuto
+                                                            ]);
+                                                        }}
+
+                                                        style={homeStyles.imgDestaque} />
+                                                    <Pressable onPress={() => alterarFavorito(produto.id_produto)} style={homeStyles.btnFavorito}>
+                                                        <Text style={homeStyles.iconeFavorito}>
+                                                            {produto.favorito ? "★" : "☆"}
+                                                        </Text>
+                                                    </Pressable>
+                                                </View>
+                                                <Text style={homeStyles.nomeProduto}>{produto.nome_produto}</Text>
+                                                <Text style={homeStyles.descricaoProduto}>{produto.descricao_produto}</Text>
+                                                <View style={homeStyles.valorContainer}>
+                                                    {/* FORMATO DE CASAS DECIMAIS 
+                                                 <Text style={homeStyles.valorProduto}>R$ {Number(produto.valor_produto).toFixed(2).replace(".", ",")}</Text> 
+                                                 */}
+                                                    {/* FORMATO MOEDA */}
+                                                    <Text style={homeStyles.valorProduto}>
+                                                        {Number(produto.valor_produto)
+                                                            .toLocaleString('pt-BR',
+                                                                {
+                                                                    style: "currency",
+                                                                    currency: "BRL",
+                                                                })}
                                                     </Text>
-                                                </Pressable>
+                                                    <Pressable style={homeStyles.btnAdicionar}>
+                                                        <Image style={homeStyles.imgAdicionar} source={require('@/assets/images/img/mais.png')} />
+                                                    </Pressable>
+                                                </View>
                                             </View>
-                                            <Text style={homeStyles.nomeProduto}>{produto.nome}</Text>
-                                            <Text style={homeStyles.descricaoProduto}>{produto.descricao}</Text>
-                                            <View style={homeStyles.valorContainer}>
-                                                <Text style={homeStyles.valorProduto}>R$ {produto.valor}</Text>
-                                                <Pressable style={homeStyles.btnAdicionar}>
-                                                    <Image style={homeStyles.imgAdicionar} source={require('@/assets/images/img/mais.png')} />
-                                                </Pressable>
-                                            </View>
-                                        </View>
+                                        ))}
+                                    </ScrollView>
 
-
-                                    ))}
-                                </ScrollView>
+                                ) : (
+                                    <View>
+                                        <Text>Nemhum produto em destaque</Text>
+                                    </View>
+                                )}
                             </View>
 
                         </View>
